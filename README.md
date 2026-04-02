@@ -395,7 +395,7 @@ For detailed documentation, see [docs/configuration.md](docs/configuration.md) a
 1. Fork the repository
 2. Clone your fork:
    ```bash
-   git clone https://github.com/your-username/bangkong.git
+   git clone https://github.com/shadowofsorrow/bangkong.git
    cd bangkong
    ```
 
