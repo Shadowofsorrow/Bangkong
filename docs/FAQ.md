@@ -442,9 +442,9 @@ https://doi.org/10.5281/zenodo.19387331
 
 ### Can I cite Bangkong in my research?
 
-**Yes!** Please cite our arXiv paper (once published).
+**Yes!** Please cite our Zenodo paper (once published).
 
-Preprint available at: [arXiv link]
+Preprint available at: [Paper Link](https://zenodo.org/records/19387331)
 
 ---
 
