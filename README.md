@@ -21,6 +21,29 @@ Resources-Efficient Large Language Model. Zenodo.
 https://doi.org/10.5281/zenodo.19387331
 ```
 
+---
+
+## 🏗️ Architecture
+
+**Base Architecture:** GPT-2 Transformer (OpenAI, 2019)
+
+**Our Contribution:** Pre-Intelligent Initialization + System Enhancements
+
+| Component | Source |
+|-----------|--------|
+| Transformer Architecture | GPT-2 (OpenAI) |
+| Pre-Intelligent Initialization | This work (Nugraha, 2026) |
+| Core Principles Enforcement | This work |
+| Multi-Domain MoE | This work |
+| Hardware Adaptation | This work |
+
+**Why GPT-2?**
+- Proven stability and reproducibility
+- Runs on consumer hardware
+- Easy to upgrade (same init works with LLaMA, Mistral, etc.)
+
+**Our innovation is the INITIALIZATION, not the architecture.**
+
 **Key Findings:**
 - ✅ **40% reduction** in training tokens required
 - ✅ **Validated on consumer hardware** (Intel Q8400, 8GB RAM, CPU-only)
