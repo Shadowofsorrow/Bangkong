@@ -130,7 +130,7 @@
 | **Export a model** | [deployment.md](deployment.md#model-export) |
 | **Deploy to production** | [deployment.md](deployment.md) |
 | **Understand Pre-Intelligent Init** | [PRE_INTELLIGENT_INITIALIZATION.md](PRE_INTELLIGENT_INITIALIZATION.md) |
-| **Cite in research** | [papers/bangkong_paper.md](papers/bangkong_paper.md) |
+| **Cite in research** | [papers/bangkong_paper.md](https://zenodo.org/records/19387331) |
 | **Ask a question** | [FAQ.md](FAQ.md) |
 
 ---
