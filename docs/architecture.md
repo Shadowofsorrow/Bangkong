@@ -4,7 +4,26 @@
 
 The Bangkong LLM Training System is a modular, environment-agnostic platform for training, packaging, and deploying large language models. The system is designed to adapt dynamically to different hardware configurations and deployment environments.
 
-## System Architecture
+## 🏗️ System Architecture
+
+**Base Architecture:** GPT-2 Transformer (OpenAI, 2019)
+
+**Our Contribution:** Pre-Intelligent Initialization + System Enhancements
+
+| Component | Source |
+|-----------|--------|
+| Transformer Architecture | GPT-2 (OpenAI) |
+| Pre-Intelligent Initialization | This work (Nugraha, 2026) |
+| Core Principles Enforcement | This work |
+| Multi-Domain MoE | This work |
+| Hardware Adaptation | This work |
+
+**Why GPT-2?**
+- Proven stability and reproducibility
+- Runs on consumer hardware
+- Easy to upgrade (same init works with LLaMA, Mistral, etc.)
+
+**Our innovation is the INITIALIZATION, not the architecture.**
 
 ```mermaid
 graph TD
