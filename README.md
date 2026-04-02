@@ -32,9 +32,7 @@ https://doi.org/10.5281/zenodo.19387331
 | Component | Source |
 |-----------|--------|
 | Transformer Architecture | GPT-2 (OpenAI) |
-| Pre-Intelligent Initialization | This work (Nugraha, 2026) |
-| Core Principles Enforcement | This work |
-| Multi-Domain MoE | This work |
+| Pre-Intelligent Initialization | This work |
 | Hardware Adaptation | This work |
 
 **Why GPT-2?**
@@ -513,22 +511,22 @@ This project implements research from the paper:
 
 ---
 
-## 💼 Available for Hire & Consulting
+## 💼 Consulting & Collaborations
 
-**Looking for custom LLM solutions? I can help!**
+**For businesses:**
+- Custom LLM Training
+- Low-Resource Optimization
+- AI Implementation
+  
+Project budgets typically start at $5K. Contact for scoping.
 
-I offer professional services for:
+**For co-founders/partners:**
+- Equity-based collaborations
+- Research partnerships
+- Joint ventures
+Let's discuss vision and fit.
 
-### Services
-
-- **Custom LLM Training** - Train models on your business data
-- **Domain Fine-tuning** - Adapt existing models to your domain
-- **Low-Resource Optimization** - Optimize models for limited hardware
-- **Deployment & Setup** - Production deployment of LLM systems
-- **Training Workshops** - Hands-on LLM training for your team
-- **Consulting** - Expert advice on LLM strategy
-
-**💰 Typical project range: $5K-50K** (depending on scope and requirements)
+**Contact:** bilbobangkong@gmail.com
 
 ### ☕ Support This Project
 
