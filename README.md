@@ -589,6 +589,15 @@ Every coffee helps keep the Q8400 running! 😂
 - GPU acceleration supported (CUDA 11.8+)
 - Cloud deployment options available
 
+## 🙏 Acknowledgments
+
+This project builds upon:
+- **GPT-2** (OpenAI, 2019) - https://github.com/openai/gpt-2
+- **Transformer Architecture** (Vaswani et al., 2017) - https://arxiv.org/abs/1706.03762
+- **Hugging Face Transformers** - https://github.com/huggingface/transformers
+Bangkong is an **enhancement framework** for GPT-2, not a novel architecture.
+Our contribution is Pre-Intelligent Initialization and the training system.
+
 ---
 
 ## License
