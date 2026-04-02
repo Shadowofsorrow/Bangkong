@@ -1,0 +1,31 @@
+defaults:
+  - default
+
+model:
+  size: "${BANGKONG_MODEL_SIZE:-large}"
+
+training:
+  max_epochs: ${BANGKONG_MAX_EPOCHS:-10}
+  batch_size: "${BANGKONG_TRAINING_BATCH_SIZE:-auto}"
+
+hardware:
+  use_gpu: "${BANGKONG_USE_GPU:-true}"
+  fp16: "${BANGKONG_FP16:-true}"
+  num_workers: ${BANGKONG_NUM_WORKERS:-4}
+
+monitoring:
+  backend: "${BANGKONG_MONITORING_BACKEND:-wandb}"
+  log_level: "${BANGKONG_LOG_LEVEL:-INFO}"
+
+deployment:
+  default_target: "${BANGKONG_DEPLOYMENT_TARGET:-cloud}"
+  api:
+    host: "${BANGKONG_API_HOST:-0.0.0.0}"
+    port: ${BANGKONG_API_PORT:-8080}
+    workers: ${BANGKONG_API_WORKERS:-4}
+
+paths:
+  models: "${BANGKONG_MODELS_PATH:-/models}"
+  logs: "${BANGKONG_LOGS_PATH:-/var/log/bangkong}"
+  checkpoints: "${BANGKONG_CHECKPOINTS_PATH:-/checkpoints}"
+  outputs: "${BANGKONG_OUTPUTS_PATH:-/outputs}"

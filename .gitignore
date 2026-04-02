@@ -1,0 +1,226 @@
+# ==============================================================================
+# Bangkong LLM Training System - .gitignore
+# ==============================================================================
+
+# ------------------------------------------------------------------------------
+# Python / PyTorch
+# ------------------------------------------------------------------------------
+# Byte-compiled / optimized / DLL files
+__pycache__/
+*.py[cod]
+*$py.class
+
+# C extensions
+*.so
+
+# Distribution / packaging
+.Python
+build/
+develop-eggs/
+dist/
+downloads/
+eggs/
+.eggs/
+lib/
+lib64/
+parts/
+sdist/
+var/
+wheels/
+*.egg-info/
+.installed.cfg
+*.egg
+MANIFEST
+
+# PyInstaller
+*.manifest
+*.spec
+
+# Installer logs
+pip-log.txt
+pip-delete-this-directory.txt
+
+# Unit test / coverage reports
+htmlcov/
+.tox/
+.nox/
+.coverage
+.coverage.*
+.cache
+nosetests.xml
+coverage.xml
+*.cover
+*.py,cover
+.hypothesis/
+.pytest_cache/
+
+# Translations
+*.mo
+*.pot
+
+# Jupyter Notebook
+.ipynb_checkpoints
+
+# IPython
+profile_default/
+ipython_config.py
+
+# pyenv
+.python-version
+
+# PEP 582
+__pypackages__/
+
+# Celery stuff
+celerybeat-schedule
+celerybeat.pid
+
+# SageMath parsed files
+*.sage.py
+
+# Environments (CRITICAL: Keep .env out of git!)
+.env
+.env.local
+.env.*.local
+.venv
+env/
+venv/
+ENV/
+env.bak
+venv.bak
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# OS
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# ------------------------------------------------------------------------------
+# Machine Learning / Deep Learning (CRITICAL: Large binary files)
+# ------------------------------------------------------------------------------
+# Model checkpoints (DO NOT commit trained models)
+*.pt
+*.pth
+*.ckpt
+*.bin
+*.onnx
+*.tflite
+*.h5
+*.pickle
+*.pkl
+
+# Model directories (keep structure, not weights)
+models/
+checkpoints/
+trained_models/
+pretrained/
+
+# TensorBoard logs
+logs/
+runs/
+tensorboard/
+
+# Output directories
+outputs/
+results/
+experiments/
+
+# Data directories (keep small samples, not full datasets)
+data/raw/
+data/processed/
+data/tokenized/
+data/external/
+data/*.jsonl
+data/*.json
+data/*.parquet
+data/*.csv
+data/*.zip
+data/*.tar.gz
+
+# Keep only these data files (examples/samples)
+!data/sample*
+!data/examples/
+!data/README.md
+
+# ------------------------------------------------------------------------------
+# Bangkong Specific
+# ------------------------------------------------------------------------------
+# Environment files (CRITICAL: May contain API keys)
+.env
+.env.example
+.env.template
+
+# Configuration with secrets
+configs/*_secret.yaml
+configs/*_private.yaml
+configs/secrets.yaml
+
+# Debug files
+debug_*.py
+*_debug.py
+
+# Temporary files
+*.tmp
+*.temp
+*.bak
+*.swp
+
+# Archive files (don't commit archives of your own code)
+*.rar
+*.zip
+*.7z
+*.tar
+*.tar.gz
+
+# Documentation drafts
+*_DRAFT.md
+*_WORK_IN_PROGRESS.md
+*_OLD.md
+*_backup.md
+*.md.bak
+
+# Internal notes (not for public repo)
+TODO_PRIVATE.md
+PRIVATE_NOTES.md
+INTERNAL_*.md
+
+# ------------------------------------------------------------------------------
+# Keep These Files (Exceptions)
+# ------------------------------------------------------------------------------
+# Keep example config files
+!.env.example
+!configs/default.yaml
+!configs/development.yaml
+
+# Keep sample data for testing
+!data/sample*/
+!data/test*/
+
+# Keep documentation
+!*.md
+!docs/
+
+# Keep tests
+!tests/
+
+# Keep scripts
+!scripts/
+
+# ------------------------------------------------------------------------------
+# Summary: What NOT to Commit
+# ------------------------------------------------------------------------------
+# ❌ .env files (may have secrets)
+# ❌ Trained models (*.pt, *.pth, *.ckpt)
+# ❌ Checkpoints (models/, checkpoints/)
+# ❌ Logs (logs/)
+# ❌ Large data files (data/raw/, data/processed/)
+# ❌ Output directories (outputs/)
+# ❌ Archive files (*.rar, *.zip)
+# ❌ Debug files
+# ------------------------------------------------------------------------------

@@ -1,0 +1,23 @@
+defaults:
+  - default
+
+model:
+  name: "math-llm-enhanced"
+  architecture: "gpt2"
+  size: "large"
+  modality: "text"
+  domain: "math"
+  sequence_length: 2048
+  max_sequence_length: 16384
+  initialization_strategy: "structured"
+  prior_knowledge: "math"
+
+training:
+  max_epochs: 5
+  learning_rate: 3e-5
+  peft_type: "lora"
+  lora_rank: 16
+
+hardware:
+  use_gpu: "true"
+  fp16: "true"

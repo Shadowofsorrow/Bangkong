@@ -1,0 +1,19 @@
+defaults:
+  - default
+
+model:
+  modality: "text"
+  sequence_length: 2000000
+  max_sequence_length: 2000000
+
+data:
+  preprocessing:
+    min_text_length: 100
+    max_text_length: 1000000
+    deduplicate: true
+    filter_low_quality: true
+
+hardware:
+  use_gpu: "${BANGKONG_USE_GPU:-auto}"
+  fp16: "${BANGKONG_FP16:-auto}"
+  max_memory_gb: 16

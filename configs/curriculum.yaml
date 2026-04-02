@@ -1,0 +1,16 @@
+defaults:
+  - default
+
+model:
+  size: "medium"
+
+training:
+  max_epochs: 5
+  learning_rate: 3e-5
+  curriculum_type: "sequence_length"
+  curriculum_stages: 3
+  stage_samples_threshold: 5000
+
+hardware:
+  use_gpu: "true"
+  fp16: "true"

@@ -1,0 +1,110 @@
+model:
+  name: "${BANGKONG_MODEL_NAME:-bangkong-llm}"
+  architecture: "${BANGKONG_MODEL_ARCH:-gpt2}"
+  size: "${BANGKONG_MODEL_SIZE:-small}"
+  modality: "${BANGKONG_MODEL_MODALITY:-text}"
+  cross_modalities: ["text"]
+  domain: "${BANGKONG_MODEL_DOMAIN:-general}"
+  vocab_size: 50257
+  hidden_size: 768
+  num_layers: 12
+  num_heads: 12
+  sequence_length: 1024
+  max_sequence_length: 2000000
+  attention_block_size: 64
+  attention_window_size: 512
+  num_global_blocks: 2
+  attention_dropout: 0.1
+  primary_language: "${BANGKONG_PRIMARY_LANGUAGE:-en}"
+  supported_languages: ["${BANGKONG_PRIMARY_LANGUAGE:-en}"]
+  region: "${BANGKONG_REGION:-global}"
+  initialization_strategy: "${BANGKONG_INIT_STRATEGY:-random}"
+  prior_knowledge: "${BANGKONG_PRIOR_KNOWLEDGE:-general}"
+  pretrained_from: "${BANGKONG_PRETRAINED_FROM:-null}"
+  
+  # Pre-intelligent initialization parameters
+  preint_cosine_clustering: ${BANGKONG_PREINT_COSINE_CLUSTERING:-true}
+  preint_attention_specialization: ${BANGKONG_PREINT_ATTENTION_SPECIALIZATION:-true}
+  preint_factorial_scaling: ${BANGKONG_PREINT_FACTORIAL_SCALING:-false}
+
+training:
+  max_epochs: ${BANGKONG_MAX_EPOCHS:-3}
+  learning_rate: 5e-5
+  warmup_steps: 500
+  save_steps: 1000
+  logging_steps: 100
+  gradient_accumulation_steps: 1
+  weight_decay: 0.01
+  adam_epsilon: 1e-8
+  max_grad_norm: 1.0
+  batch_size: "${BANGKONG_TRAINING_BATCH_SIZE:-auto}"
+  early_stopping_patience: 3
+  progress_leave: false
+  epoch_progress_leave: true
+  peft_type: "${BANGKONG_PEFT_TYPE:-none}"
+  lora_rank: ${BANGKONG_LORA_RANK:-8}
+  lora_alpha: ${BANGKONG_LORA_ALPHA:-1}
+  distillation_temperature: ${BANGKONG_DISTILLATION_TEMPERATURE:-2.0}
+  distillation_alpha: ${BANGKONG_DISTILLATION_ALPHA:-0.5}
+  pruning_type: "${BANGKONG_PRUNING_TYPE:-none}"
+  sparsity_ratio: ${BANGKONG_SPARSITY_RATIO:-0.0}
+  curriculum_type: "${BANGKONG_CURRICULUM_TYPE:-none}"
+  curriculum_stages: ${BANGKONG_CURRICULUM_STAGES:-1}
+  stage_samples_threshold: ${BANGKONG_STAGE_SAMPLES_THRESHOLD:-10000}
+  
+  # Scaling law validation parameters
+  preint_reduction_factor: ${BANGKONG_PREINT_REDUCTION_FACTOR:-0.4}
+  scaling_law_alpha: ${BANGKONG_SCALING_LAW_ALPHA:-0.8}
+  scaling_law_N_ref: ${BANGKONG_SCALING_LAW_N_REF:-350000000.0}
+  scaling_law_T_ref: ${BANGKONG_SCALING_LAW_T_REF:-1000000000.0}
+  scaling_gpu_hours_ref: ${BANGKONG_SCALING_GPU_HOURS_REF:-1000.0}
+  
+  # Experimentation parameters
+  experiment_tracking_enabled: ${BANGKONG_EXPERIMENT_TRACKING:-false}
+
+data:
+  preprocessing:
+    min_text_length: 50
+    max_text_length: 10000
+    deduplicate: true
+    filter_low_quality: true
+  paths:
+    raw: "${BANGKONG_DATA_PATH:-./data}/raw"
+    processed: "${BANGKONG_PROCESSED_PATH:-./data/processed}"
+    tokenized: "${BANGKONG_TOKENIZED_PATH:-./data/tokenized}"
+    external: "${BANGKONG_EXTERNAL_PATH:-./data/external}"
+
+hardware:
+  use_gpu: "${BANGKONG_USE_GPU:-auto}"
+  use_tpu: "${BANGKONG_USE_TPU:-auto}"
+  fp16: "${BANGKONG_FP16:-auto}"
+  num_workers: "${BANGKONG_NUM_WORKERS:-auto}"
+  max_memory_gb: "${BANGKONG_MAX_MEMORY_GB:-auto}"
+  batch_size: "${BANGKONG_HARDWARE_BATCH_SIZE:-auto}"
+
+evaluation:
+  metrics: ["perplexity", "accuracy"]
+  validation_split: 0.1
+
+monitoring:
+  backend: "${BANGKONG_MONITORING_BACKEND:-none}"
+  log_level: "${BANGKONG_LOG_LEVEL:-INFO}"
+  log_file: "${BANGKONG_LOG_PATH:-./logs/bangkong.log}"
+
+packaging:
+  default_formats: ["pytorch"]
+  supported_formats: ["pytorch", "onnx", "safetensors", "gguf"]
+
+deployment:
+  default_target: "${BANGKONG_DEPLOYMENT_TARGET:-local}"
+  supported_targets: ["local", "cloud"]
+  api:
+    host: "${BANGKONG_API_HOST:-0.0.0.0}"
+    port: ${BANGKONG_API_PORT:-8000}
+    workers: ${BANGKONG_API_WORKERS:-1}
+
+paths:
+  models: "${BANGKONG_MODELS_PATH:-./models}"
+  logs: "${BANGKONG_LOGS_PATH:-./logs}"
+  checkpoints: "${BANGKONG_CHECKPOINTS_PATH:-./checkpoints}"
+  outputs: "${BANGKONG_OUTPUTS_PATH:-./outputs}"

@@ -1,0 +1,18 @@
+defaults:
+  - default
+
+model:
+  name: "broda"
+  architecture: "broda"
+  size: "large"
+  primary_language: "id"
+  supported_languages: ["id", "en"]
+  region: "indonesia"
+
+training:
+  max_epochs: 3
+  learning_rate: 1e-5
+
+hardware:
+  use_gpu: "true"
+  fp16: "true"

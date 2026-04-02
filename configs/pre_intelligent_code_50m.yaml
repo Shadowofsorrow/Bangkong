@@ -1,0 +1,57 @@
+defaults:
+  - default
+
+model:
+  name: "pre-intelligent-small-model"
+  architecture: "gpt2"
+  size: "tiny"
+  modality: "text"
+  domain: "reasoning"
+  vocab_size: 50257
+  hidden_size: 128
+  num_layers: 4
+  num_heads: 4
+  sequence_length: 512
+  max_sequence_length: 2048
+  initialization_strategy: "pre_intelligent"
+  prior_knowledge: "code"
+  
+  # Pre-intelligent initialization parameters
+  preint_cosine_clustering: true
+  preint_attention_specialization: true
+  preint_factorial_scaling: false
+  preint_cluster_groups:
+    reasoning: 0.20
+    logic: 0.20
+    planning: 0.20
+    general: 0.40
+  preint_attention_patterns:
+    causal: 0.3
+    logical: 0.3
+    temporal: 0.2
+    general: 0.2
+
+training:
+  max_epochs: 3
+  learning_rate: 5e-4
+  batch_size: 4
+  gradient_accumulation_steps: 2
+  peft_type: "lora"
+  lora_rank: 8
+  lora_alpha: 16
+  
+  # Scaling law validation parameters
+  preint_reduction_factor: 0.4
+  scaling_law_alpha: 0.8
+  scaling_law_N_ref: 350000000.0
+  scaling_law_T_ref: 1000000000.0
+  scaling_gpu_hours_ref: 1000.0
+
+hardware:
+  use_gpu: "false"
+  fp16: "false"
+  num_workers: 0
+
+evaluation:
+  metrics: ["perplexity", "accuracy"]
+  validation_split: 0.1

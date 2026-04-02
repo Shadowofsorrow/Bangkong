@@ -1,0 +1,18 @@
+defaults:
+  - default
+
+model:
+  size: "${BANGKONG_MODEL_SIZE:-small}"
+
+training:
+  max_epochs: ${BANGKONG_MAX_EPOCHS:-3}
+
+hardware:
+  use_gpu: "${BANGKONG_USE_GPU:-auto}"
+  fp16: "${BANGKONG_FP16:-auto}"
+
+monitoring:
+  log_level: "${BANGKONG_LOG_LEVEL:-DEBUG}"
+
+deployment:
+  default_target: "${BANGKONG_DEPLOYMENT_TARGET:-local}"

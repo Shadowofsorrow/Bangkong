@@ -1,0 +1,20 @@
+defaults:
+  - default
+
+model:
+  modality: "multimodal"
+  sequence_length: 2048
+  image_size: 224
+  audio_sample_rate: 16000
+  video_fps: 30
+
+data:
+  preprocessing:
+    min_text_length: 50
+    max_text_length: 5000
+    deduplicate: true
+    filter_low_quality: true
+
+hardware:
+  use_gpu: "${BANGKONG_USE_GPU:-auto}"
+  fp16: "${BANGKONG_FP16:-auto}"

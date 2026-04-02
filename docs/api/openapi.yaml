@@ -1,0 +1,501 @@
+openapi: 3.0.0
+info:
+  title: Bangkong LLM API
+  description: API for Bangkong Large Language Model Training and Deployment System
+  version: 1.0.0
+servers:
+  - url: http://localhost:8000
+    description: Local development server
+  - url: https://api.bangkong.ai
+    description: Production server
+
+paths:
+  /health:
+    get:
+      summary: Health check
+      description: Check if the API server is running
+      responses:
+        '200':
+          description: Server is healthy
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: string
+                    example: "healthy"
+                  timestamp:
+                    type: string
+                    format: date-time
+        '500':
+          description: Server error
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: string
+
+  /generate:
+    post:
+      summary: Text generation
+      description: Generate text based on a prompt
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                prompt:
+                  type: string
+                  description: The input prompt for text generation
+                max_length:
+                  type: integer
+                  description: Maximum length of generated text
+                  default: 100
+                temperature:
+                  type: number
+                  format: float
+                  description: Sampling temperature
+                  default: 1.0
+                top_k:
+                  type: integer
+                  description: Top-K sampling parameter
+                  default: 50
+                top_p:
+                  type: number
+                  format: float
+                  description: Top-P sampling parameter
+                  default: 0.95
+              required:
+                - prompt
+      responses:
+        '200':
+          description: Generated text
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  text:
+                    type: string
+                    description: Generated text
+        '400':
+          description: Bad request
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: string
+        '500':
+          description: Server error
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: string
+
+  /complete:
+    post:
+      summary: Code completion
+      description: Complete code based on a prefix
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                prefix:
+                  type: string
+                  description: The code prefix to complete
+                max_length:
+                  type: integer
+                  description: Maximum length of completion
+                  default: 100
+                temperature:
+                  type: number
+                  format: float
+                  description: Sampling temperature
+                  default: 0.5
+              required:
+                - prefix
+      responses:
+        '200':
+          description: Code completion
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  completion:
+                    type: string
+                    description: Completed code
+        '400':
+          description: Bad request
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: string
+        '500':
+          description: Server error
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: string
+
+  /classify:
+    post:
+      summary: Text classification
+      description: Classify text into categories
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                text:
+                  type: string
+                  description: The text to classify
+                categories:
+                  type: array
+                  items:
+                    type: string
+                  description: List of possible categories
+              required:
+                - text
+                - categories
+      responses:
+        '200':
+          description: Classification result
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  category:
+                    type: string
+                    description: Predicted category
+                  confidence:
+                    type: number
+                    format: float
+                    description: Confidence score
+        '400':
+          description: Bad request
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: string
+        '500':
+          description: Server error
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: string
+
+  /embed:
+    post:
+      summary: Text embedding
+      description: Generate embeddings for text
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                text:
+                  type: string
+                  description: The text to embed
+              required:
+                - text
+      responses:
+        '200':
+          description: Text embedding
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  embedding:
+                    type: array
+                    items:
+                      type: number
+                      format: float
+                    description: Text embedding vector
+        '400':
+          description: Bad request
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: string
+        '500':
+          description: Server error
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: string
+
+  /train:
+    post:
+      summary: Start model training
+      description: Start training a model with specified configuration
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                config:
+                  type: object
+                  description: Training configuration
+                data_path:
+                  type: string
+                  description: Path to training data
+                output_path:
+                  type: string
+                  description: Path to save trained model
+                training_mode:
+                  type: string
+                  enum: [fresh, resume, continue, fine-tune]
+                  description: Training mode
+                model_path:
+                  type: string
+                  description: Path to existing model (for resume/continue/fine-tune)
+                checkpoint_path:
+                  type: string
+                  description: Path to checkpoint (for resume mode)
+              required:
+                - config
+      responses:
+        '200':
+          description: Training started successfully
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: string
+                    example: "training started"
+                  job_id:
+                    type: string
+                    description: Training job identifier
+        '400':
+          description: Bad request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '500':
+          description: Server error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+
+  /train/status:
+    get:
+      summary: Get training status
+      description: Get the status of a training job
+      parameters:
+        - name: job_id
+          in: query
+          required: true
+          schema:
+            type: string
+          description: Training job identifier
+      responses:
+        '200':
+          description: Training status
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: string
+                    enum: [running, completed, failed, paused]
+                  progress:
+                    type: number
+                    format: float
+                    description: Training progress percentage
+                  epoch:
+                    type: integer
+                    description: Current epoch
+                  step:
+                    type: integer
+                    description: Current training step
+        '400':
+          description: Bad request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '404':
+          description: Job not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '500':
+          description: Server error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+
+  /curriculum/generate:
+    post:
+      summary: Generate curriculum
+      description: Generate synthetic curriculum for pre-intelligent training
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                domain:
+                  type: string
+                  enum: [reasoning, math, code, general]
+                  description: Domain for curriculum generation
+                num_samples:
+                  type: integer
+                  description: Number of samples to generate
+                  default: 1000
+                difficulty_range:
+                  type: array
+                  items:
+                    type: integer
+                  description: Difficulty range (min, max)
+                  default: [1, 5]
+                output_dir:
+                  type: string
+                  description: Output directory for curriculum files
+              required:
+                - domain
+      responses:
+        '200':
+          description: Curriculum generated successfully
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: string
+                    example: "curriculum generated"
+                  files:
+                    type: array
+                    items:
+                      type: string
+                    description: Generated curriculum files
+        '400':
+          description: Bad request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '500':
+          description: Server error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+
+  /models/initialize:
+    post:
+      summary: Initialize model with pre-intelligent features
+      description: Initialize a model with pre-intelligent embeddings and attention specialization
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                model_path:
+                  type: string
+                  description: Path to model to initialize
+                initialization_strategy:
+                  type: string
+                  enum: [random, pretrained, structured, pre_intelligent, xavier, kaiming]
+                  description: Initialization strategy
+                prior_knowledge:
+                  type: string
+                  enum: [reasoning, math, code, general]
+                  description: Domain for initialization
+                cosine_clustering:
+                  type: boolean
+                  description: Enable cosine-clustered embeddings
+                  default: true
+                attention_specialization:
+                  type: boolean
+                  description: Enable attention head specialization
+                  default: true
+              required:
+                - model_path
+                - initialization_strategy
+      responses:
+        '200':
+          description: Model initialized successfully
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: string
+                    example: "model initialized"
+                  model_path:
+                    type: string
+                    description: Path to initialized model
+        '400':
+          description: Bad request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '500':
+          description: Server error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+
+components:
+  schemas:
+    Error:
+      type: object
+      properties:
+        error:
+          type: string
+          description: Error message

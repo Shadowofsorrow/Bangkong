@@ -1,0 +1,48 @@
+# Test Training Configuration
+# Small model for sanity check before GitHub upload
+
+model:
+  name: "bangkong-test"
+  architecture: "gpt2"
+  size: "tiny"
+  vocab_size: 50257
+  hidden_size: 128
+  num_layers: 4
+  num_heads: 4
+  sequence_length: 64
+
+  # Pre-Intelligent Initialization
+  initialization_strategy: "pre_intelligent"
+  prior_knowledge: "general"
+  preint_cosine_clustering: true
+  preint_attention_specialization: true
+
+training:
+  max_epochs: 5
+  learning_rate: 5e-4
+  batch_size: 1
+  gradient_accumulation_steps: 2
+  warmup_steps: 10
+  save_steps: 50
+  logging_steps: 5
+
+data:
+  train_path: "./data/test/test_samples.jsonl"
+  preprocessing:
+    min_text_length: 10
+    max_text_length: 128
+
+hardware:
+  use_gpu: "auto"
+  fp16: "auto"
+  num_workers: 0
+  max_memory_gb: 4
+
+monitoring:
+  backend: "none"
+  log_level: "INFO"
+
+paths:
+  models: "./test_outputs/models"
+  logs: "./test_outputs/logs"
+  checkpoints: "./test_outputs/checkpoints"

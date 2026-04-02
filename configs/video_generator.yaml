@@ -1,0 +1,22 @@
+defaults:
+  - default
+
+model:
+  name: "video-generator"
+  architecture: "multimodal-gpt2"
+  size: "large"
+  modality: "multimodal"
+  domain: "general"
+  sequence_length: 4096
+  video_fps: 24
+  image_size: 256
+  cross_modalities: ["text", "video"]
+
+training:
+  max_epochs: 200
+  learning_rate: 5e-5
+
+hardware:
+  use_gpu: "true"
+  fp16: "true"
+  max_memory_gb: 32

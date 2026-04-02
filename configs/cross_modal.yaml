@@ -1,0 +1,24 @@
+defaults:
+  - default
+
+model:
+  name: "multimodal-gpt"
+  architecture: "multimodal-gpt2"
+  modality: "multimodal"
+  cross_modalities: ["text", "image"]
+  size: "medium"
+  sequence_length: 2048
+  image_size: 224
+
+data:
+  preprocessing:
+    min_text_length: 50
+    max_text_length: 5000
+
+training:
+  max_epochs: 5
+  learning_rate: 3e-5
+
+hardware:
+  use_gpu: "true"
+  fp16: "true"

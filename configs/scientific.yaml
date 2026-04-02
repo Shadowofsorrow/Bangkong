@@ -1,0 +1,25 @@
+defaults:
+  - default
+
+model:
+  name: "scientific-llm"
+  architecture: "gpt2"
+  domain: "scientific"
+  size: "large"
+  vocab_size: 50257
+  hidden_size: 1536
+  num_layers: 32
+  num_heads: 24
+
+data:
+  preprocessing:
+    min_text_length: 200
+    max_text_length: 20000
+
+training:
+  max_epochs: 7
+  learning_rate: 1e-5
+
+hardware:
+  use_gpu: "true"
+  fp16: "true"

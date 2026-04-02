@@ -1,0 +1,28 @@
+# Testing environment configuration
+# Inherits from default.yaml
+
+defaults:
+  - default
+
+model:
+  size: "tiny"  # Use smallest model for testing
+  sequence_length: 128
+
+training:
+  max_epochs: 1
+  batch_size: 1
+  gradient_accumulation_steps: 1
+
+hardware:
+  use_gpu: false
+  fp16: false
+  num_workers: 0
+  max_memory_gb: 2
+
+monitoring:
+  backend: "none"
+  log_level: "DEBUG"
+
+data:
+  preprocessing:
+    max_text_length: 500  # Smaller for faster testing

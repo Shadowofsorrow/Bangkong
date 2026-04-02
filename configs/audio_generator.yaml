@@ -1,0 +1,20 @@
+defaults:
+  - default
+
+model:
+  name: "audio-generator"
+  architecture: "multimodal-gpt2"
+  size: "medium"
+  modality: "multimodal"
+  domain: "general"
+  sequence_length: 1024
+  audio_sample_rate: 22050
+  cross_modalities: ["text", "audio"]
+
+training:
+  max_epochs: 100
+  learning_rate: 2e-4
+
+hardware:
+  use_gpu: "true"
+  fp16: "true"

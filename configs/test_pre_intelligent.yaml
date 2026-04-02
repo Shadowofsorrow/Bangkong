@@ -1,0 +1,73 @@
+# Pre-Intelligent Test Config - MINIMAL for Q8400 safety
+# Uses smallest possible settings to test pre-intelligent init
+
+model:
+  name: "pre-intelligent-test"
+  architecture: "gpt2"
+  size: "tiny"
+  vocab_size: 1000          # Tiny vocab for fast testing
+  hidden_size: 32           # Minimal hidden size
+  num_layers: 1             # Single layer
+  num_heads: 2              # Minimum heads
+  sequence_length: 32       # Very short sequences
+  max_sequence_length: 64
+  
+  # PRE-INTELLIGENT INIT - THIS IS WHAT WE'RE TESTING
+  initialization_strategy: "pre_intelligent"
+  prior_knowledge: "reasoning"
+  
+  # Enable pre-intelligent features
+  preint_cosine_clustering: true
+  preint_attention_specialization: true
+  preint_factorial_scaling: false
+  
+  # Minimal cluster groups
+  preint_cluster_groups:
+    reasoning: 0.25
+    logic: 0.25
+    general: 0.50
+  
+  # Minimal attention patterns
+  preint_attention_patterns:
+    causal: 0.4
+    logical: 0.3
+    general: 0.3
+
+training:
+  max_epochs: 1             # Just 1 epoch to verify it runs
+  learning_rate: 1e-3
+  warmup_steps: 5
+  save_steps: 100           # Don't save during training (saves space)
+  logging_steps: 5
+  gradient_accumulation_steps: 1
+  weight_decay: 0.01
+  adam_epsilon: 1e-8
+  max_grad_norm: 1.0
+  batch_size: 1             # Batch size 1 for low RAM
+  early_stopping_patience: 3
+  progress_leave: false
+  epoch_progress_leave: false
+
+data:
+  preprocessing:
+    min_text_length: 5      # Very short
+    max_text_length: 100    # Keep inputs tiny
+    deduplicate: true
+    filter_low_quality: true
+
+hardware:
+  use_gpu: "false"          # CPU only (your GPU is too old)
+  fp16: "false"
+  num_workers: 0            # No multiprocessing (low RAM)
+  batch_size: 1
+
+monitoring:
+  backend: "none"           # Disable to save memory
+  log_level: "WARNING"      # Minimal logging
+  log_file: "./logs/test_pre_intelligent.log"
+
+paths:
+  models: "./models"
+  logs: "./logs"
+  checkpoints: "./checkpoints"
+  outputs: "./outputs"

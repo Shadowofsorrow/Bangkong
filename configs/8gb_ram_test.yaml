@@ -1,0 +1,45 @@
+# 8GB RAM Test Configuration
+# ULTRA SMALL model for low-memory systems (Intel Q8400, 8GB RAM)
+# This config is designed to avoid OOM errors
+
+model:
+  name: "bangkong-8gb-test"
+  architecture: "gpt2"
+  size: "tiny"
+  modality: "text"
+  vocab_size: 50257
+  hidden_size: 64        # ULTRA SMALL: 64 (vs 768 default)
+  num_layers: 2          # ULTRA SMALL: 2 (vs 12 default)
+  num_heads: 2           # ULTRA SMALL: 2 (vs 12 default)
+  sequence_length: 32    # ULTRA SMALL: 32 (vs 1024 default)
+  
+  initialization_strategy: "random"  # Use random init (faster, less memory)
+
+training:
+  max_epochs: 3
+  learning_rate: 1e-3
+  batch_size: 1          # MUST be 1 for 8GB RAM
+  gradient_accumulation_steps: 1
+  warmup_steps: 5
+  logging_steps: 1
+
+data:
+  train_path: "./data/test/test_samples.jsonl"
+  preprocessing:
+    min_text_length: 10
+    max_text_length: 32   # MUST be small for 8GB RAM
+
+hardware:
+  use_gpu: "auto"
+  fp16: "auto"
+  num_workers: 0
+  max_memory_gb: 8
+
+monitoring:
+  backend: "none"
+  log_level: "INFO"
+
+paths:
+  models: "./test_outputs/models"
+  logs: "./test_outputs/logs"
+  checkpoints: "./test_outputs/checkpoints"

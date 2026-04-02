@@ -1,0 +1,21 @@
+defaults:
+  - default
+
+model:
+  name: "chatbot-llm"
+  architecture: "gpt2"
+  size: "large"
+  modality: "text"
+  domain: "general"
+  sequence_length: 4096
+  max_sequence_length: 32768
+
+training:
+  max_epochs: 3
+  learning_rate: 5e-5
+  peft_type: "lora"
+  lora_rank: 8
+
+hardware:
+  use_gpu: "true"
+  fp16: "true"

@@ -1,0 +1,43 @@
+cff-version: 1.2.0
+message: "If you use this software or research, please cite it as below."
+
+title: "Bangkong: Pre-Intelligent LLM Training System for Resources-Efficient Large Language Model"
+
+authors:
+  - family-names: "Nugraha"
+    given-names: "Soni"
+    orcid: "https://orcid.org/your-orcid-if-available"
+
+doi: "10.5281/zenodo.19387331"
+
+url: "https://zenodo.org/records/19387331"
+
+license: CC-BY-4.0
+
+repository-code: "https://github.com/shadowofsorrow/bangkong"
+
+version: "1.0.0"
+
+date-released: "2026-04-02"
+
+abstract: |
+  Bangkong is a production-ready LLM training system featuring Pre-Intelligent 
+  Initialization that creates language models with structured prior knowledge 
+  embedded at initialization time. This approach achieves 40% reduction in 
+  required training tokens compared to standard initialization, validated on 
+  consumer hardware (Intel Q8400, 8GB RAM).
+
+keywords:
+  - "Large Language Models"
+  - "Pre-Intelligent Initialization"
+  - "Training Efficiency"
+  - "Scaling Laws"
+  - "Resource-Efficient AI"
+  - "Cosine Clustering"
+  - "Attention Specialization"
+
+repository: "https://github.com/shadowofsorrow/bangkong"
+
+contact-email: "bilbobangkong@gmail.com"
+
+contact-name: "Soni Nugraha"
