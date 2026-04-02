@@ -44,7 +44,7 @@
 | [Pre-Intelligent Initialization](PRE_INTELLIGENT_INITIALIZATION.md) | Core innovation | Advanced |
 | [Models Guide](models.md) | Model architectures | Intermediate |
 | [Curriculum Learning](curriculum_learning.md) | Advanced training | Advanced |
-| [Research Paper](10.5281/zenodo.19387330) | Full academic paper | Expert |
+| [Research Paper](https://zenodo.org/records/19387331) | Full academic paper | Expert |
 
 ---
 
