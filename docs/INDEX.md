@@ -11,7 +11,6 @@
 | [README](../README.md) | Project overview | 5 min |
 | [Quick Start](QUICKSTART.md) | Train first model | 15 min |
 | [Installation Guide](INSTALLATION.md) | Step-by-step setup | 10 min |
-| [One Pager](../ONE_PAGER.md) | Quick overview | 3 min |
 
 ---
 
@@ -45,7 +44,7 @@
 | [Pre-Intelligent Initialization](PRE_INTELLIGENT_INITIALIZATION.md) | Core innovation | Advanced |
 | [Models Guide](models.md) | Model architectures | Intermediate |
 | [Curriculum Learning](curriculum_learning.md) | Advanced training | Advanced |
-| [Research Paper](papers/bangkong_paper.md) | Full academic paper | Expert |
+| [Research Paper](10.5281/zenodo.19387330) | Full academic paper | Expert |
 
 ---
 
@@ -139,11 +138,8 @@
 ## 📚 Documentation by Role
 
 ### For First-Time Users
-
-1. Start with [One Pager](../ONE_PAGER.md)
-2. Read [Quick Start](QUICKSTART.md)
-3. Browse [FAQ](FAQ.md)
-4. Join [Discord](https://discord.gg/yourinvite)
+1. Read [Quick Start](QUICKSTART.md)
+2. Browse [FAQ](FAQ.md)
 
 ### For Developers
 
@@ -171,12 +167,11 @@
 ## 🎓 Learning Path
 
 ### Beginner Track (4 hours)
-
-1. [One Pager](../ONE_PAGER.md) - 3 min
-2. [Quick Start](QUICKSTART.md) - 15 min
-3. Train your first model - 2 hours
-4. [FAQ](FAQ.md) - 30 min
-5. [Troubleshooting](TROUBLESHOOTING.md) - 30 min
+ 
+1. [Quick Start](QUICKSTART.md) - 15 min
+2. Train your first model - 2 hours
+3. [FAQ](FAQ.md) - 30 min
+4. [Troubleshooting](TROUBLESHOOTING.md) - 30 min
 
 ### Intermediate Track (8 hours)
 
@@ -234,8 +229,7 @@
 | [Hugging Face](https://huggingface.co/) | Model sharing platform |
 | [PyTorch Docs](https://pytorch.org/docs/) | Deep learning framework |
 | [Transformers Docs](https://huggingface.co/transformers/) | Transformer models |
-| [arXiv](https://arxiv.org/) | Research papers |
-| [Papers With Code](https://paperswithcode.com/) | ML papers + code |
+| [Zenodo](https://10.5281/zenodo.19387330) | Research papers |
 
 ---
 
