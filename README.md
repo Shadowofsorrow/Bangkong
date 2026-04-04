@@ -70,8 +70,6 @@ For easier use on Windows systems, we provide interactive launcher scripts:
 - `bangkong.bat` - Batch file launcher with menu-driven interface
 - `bangkong.ps1` - PowerShell launcher with enhanced formatting
 
-See [LAUNCHERS.md](LAUNCHERS.md) for detailed usage instructions.
-
 **Note**: Recent fixes have been applied to improve progress tracking visibility and fix a missing method issue when resuming training from checkpoints. The batch script now uses unbuffered output to ensure proper display of progress bars.
 
 ## Data Processing Workflow
