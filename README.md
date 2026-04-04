@@ -400,7 +400,7 @@ python scripts/run_pre_intelligent_experiment.py --config configs/development.ya
 python scripts/demo_pre_intelligent.py
 ```
 
-For detailed documentation, see [docs/PRE_INTELLIGENT_INITIALIZATION.md](docs/PRE_INTELLIGENT_INITIALIZATION.md).
+For detailed documentation, see [docs/PRE_INTELLIGENT_INITIALIZATION.md](docs/intelligent_initialization.md).
 
 ## Curriculum Learning
 
