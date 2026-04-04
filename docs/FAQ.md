@@ -14,7 +14,7 @@ Bangkong is a production-ready LLM training system featuring **Pre-Intelligent I
 
 ### Why "Bangkong"?
 
-The name reflects the system's strength and versatility - like a gorilla, it's powerful, adaptable, and can work with limited resources (CPU-only if needed).
+The name reflects the system's strength, agile and versatility - it's powerful, adaptable, hybrid and can work with limited resources (CPU-only if needed).
 
 ---
 
@@ -213,7 +213,7 @@ Bangkong uses **Pre-Intelligent Initialization**:
 | Epoch 2 Loss | 9.80 | 5.72 | **41.6% ↓** |
 | Tokens to Target | 1.0B | 0.6B | **40% ↓** |
 
-See [docs/papers/bangkong_paper.md](papers/bangkong_paper.md) for full analysis.
+See [docs/papers/bangkong_paper.md](https://zenodo.org/records/19387331) for full analysis.
 
 ---
 
@@ -399,7 +399,7 @@ Bangkong doesn't use patented techniques. Pre-Intelligent Initialization is nove
 1. **GitHub Issues** - [Bug reports, feature requests](https://github.com/shadowofsorrow/bangkong/issues)
 2. **GitHub Discussions** - [Questions, ideas](https://github.com/shadowofsorrow/bangkong/discussions)
 3. **Email** - Direct support: bilbobangkong@gmail.com
-4. **LinkedIn** - [Son Nugraha](https://www.linkedin.com/in/soni-nugraha-467a1766/)
+4. **LinkedIn** - [Soni Nugraha](https://www.linkedin.com/in/soni-nugraha-467a1766/)
 5. **Documentation** - Guides, tutorials
 
 ---
@@ -429,25 +429,22 @@ Bangkong doesn't use patented techniques. Pre-Intelligent Initialization is nove
 
 ### Is there a research paper?
 
-**Yes!** See [docs/papers/bangkong_paper.md](papers/bangkong_paper.md)
+**Yes!** See [docs/papers/bangkong_paper.md](https://zenodo.org/records/19387331)
 
 **Citation:**
 ```bibtex
-@article{yourname2024bangkong,
-  title={Bangkong: Pre-Intelligent LLM Training System},
-  author={Your Name},
-  journal={arXiv preprint},
-  year={2024}
-}
+Nugraha, S. (2026). Bangkong: Pre-Intelligent LLM Training System for 
+Resources-Efficient Large Language Model. Zenodo. 
+https://doi.org/10.5281/zenodo.19387331
 ```
 
 ---
 
 ### Can I cite Bangkong in my research?
 
-**Yes!** Please cite our arXiv paper (once published).
+**Yes!** Please cite our Zenodo paper (once published).
 
-Preprint available at: [arXiv link]
+Preprint available at: [Paper Link](https://zenodo.org/records/19387331)
 
 ---
 
@@ -464,7 +461,7 @@ Preprint available at: [arXiv link]
 ### What's the roadmap?
 
 **2024 Q2:**
-- [ ] arXiv paper submission
+- [ ] Zenodo paper submission
 - [ ] Colab notebook demo
 - [ ] Hugging Face integration
 

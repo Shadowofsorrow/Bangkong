@@ -4,7 +4,7 @@
 
 The Bangkong LLM Training System is a modular, environment-agnostic platform for training, packaging, and deploying large language models. The system is designed to adapt dynamically to different hardware configurations and deployment environments.
 
-## System Architecture
+## 🏗️ System Architecture
 
 ```mermaid
 graph TD
@@ -43,24 +43,31 @@ graph TD
 - Data validation and cleaning
 
 ### 4. Model Training Engine
+- **Base Model:** GPT-2 (Hugging Face Transformers)
+- **Enhancement:** Pre-Intelligent Initialization
+- Hardware-adaptive training
+- Mixed precision support
+- Checkpointing and recovery
+
+### 5. Model Training Engine
 - Hardware-adaptive training
 - Mixed precision support
 - Gradient accumulation
 - Checkpointing and recovery
 
-### 5. Model Packaging System
+### 6. Model Packaging System
 - Multi-format model conversion (PyTorch, ONNX, SafeTensors)
 - Quantization support (INT8, INT4)
 - Metadata management
 - Environment-agnostic packaging
 
-### 6. Deployment Manager
+### 7. Deployment Manager
 - Multiple deployment targets (local, cloud, hybrid)
 - API server generation
 - Containerization support
 - Load balancing
 
-### 7. Monitoring & Evaluation
+### 8. Monitoring & Evaluation
 - Real-time resource monitoring
 - Performance tracking
 - Metrics collection
