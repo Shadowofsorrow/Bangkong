@@ -8,18 +8,39 @@
 
 This project is based on **published research**:
 
-> **Bangkong: Pre-Intelligent LLM Training System for Resources-Efficient Large Language Models**  
-> **Author:** Soni Nugraha  
-> **DOI:** [10.5281/zenodo.19387331](https://doi.org/10.5281/zenodo.19387331)  
-> **Published:** April 2, 2026  
+> **Bangkong: Pre-Intelligent LLM Training System for Resources-Efficient Large Language Models**
+> **Author:** Soni Nugraha
+> **DOI:** [10.5281/zenodo.19387331](https://doi.org/10.5281/zenodo.19387331)
+> **Published:** April 2, 2026
 > **License:** [CC-BY 4.0 International](https://creativecommons.org/licenses/by/4.0/)
 
 **Citation:**
 ```
-Nugraha, S. (2026). Bangkong: Pre-Intelligent LLM Training System for 
-Resources-Efficient Large Language Model. Zenodo. 
+Nugraha, S. (2026). Bangkong: Pre-Intelligent LLM Training System for
+Resources-Efficient Large Language Model. Zenodo.
 https://doi.org/10.5281/zenodo.19387331
 ```
+
+---
+
+## 🏗️ Architecture
+
+**Base Architecture:** GPT-2 Transformer (OpenAI, 2019)
+
+**Our Contribution:** Pre-Intelligent Initialization + System Enhancements
+
+| Component | Source |
+|-----------|--------|
+| Transformer Architecture | GPT-2 (OpenAI) |
+| Pre-Intelligent Initialization | This work |
+| Hardware Adaptation | This work |
+
+**Why GPT-2?**
+- Proven stability and reproducibility
+- Runs on consumer hardware
+- Easy to upgrade (same init works with LLaMA, Mistral, etc.)
+
+**Our innovation is the INITIALIZATION, not the architecture.**
 
 **Key Findings:**
 - ✅ **40% reduction** in training tokens required
@@ -68,64 +89,113 @@ The system includes a comprehensive data processing pipeline:
 ```
 bangkong/
 ├── bangkong/
-│   ├── __init__.py
-│   ├── config/
+│   ├── config/              # Configuration schemas and loaders
 │   │   ├── __init__.py
 │   │   ├── loader.py
 │   │   └── schemas.py
-│   ├── hardware/
-│   │   ├── __init__.py
-│   │   ├── detector.py
-│   │   └── allocator.py
-│   ├── data/
+│   ├── data/                # Multi-format data processing pipeline
 │   │   ├── __init__.py
 │   │   ├── pipeline.py
 │   │   └── processors/
-│   │       ├── __init__.py
 │   │       ├── base_processor.py
 │   │       ├── text_processor.py
 │   │       ├── image_processor.py
 │   │       ├── audio_processor.py
-│   │       └── document_processor.py
-│   ├── models/
+│   │       ├── video_processor.py
+│   │       ├── document_processor.py
+│   │       ├── cross_modal_processor.py
+│   │       ├── domain_processor.py
+│   │       └── regional_processor.py
+│   ├── deployment/          # Deployment management
+│   │   └── manager.py
+│   ├── exceptions/          # Custom error types
+│   │   └── resource_errors.py
+│   ├── hardware/            # Hardware detection and resource allocation
+│   │   ├── detector.py
+│   │   └── allocator.py
+│   ├── models/              # Model training, packaging, and management
 │   │   ├── __init__.py
 │   │   ├── trainer.py
 │   │   ├── packager.py
-│   │   └── training_manager.py
-│   ├── deployment/
-│   │   ├── __init__.py
-│   │   └── manager.py
-│   ├── monitoring/
-│   │   ├── __init__.py
+│   │   ├── training_manager.py
+│   │   ├── intelligent_init.py
+│   │   ├── cosine_clustered_embeddings.py
+│   │   ├── attention_specialization.py
+│   │   ├── curriculum.py
+│   │   ├── distillation.py
+│   │   ├── efficient_attention.py
+│   │   ├── multimodal.py
+│   │   ├── peft.py
+│   │   ├── pruning.py
+│   │   ├── quantization.py
+│   │   ├── regional.py
+│   │   └── specialized.py
+│   ├── monitoring/          # Resource and performance tracking
 │   │   └── tracker.py
-│   ├── utils/
-│   │   ├── __init__.py
+│   ├── pre_intelligent/     # Core innovation - Pre-Intelligent Initialization
+│   │   ├── curriculum/      # Curriculum learning with reasoning traces
+│   │   │   ├── config.yaml
+│   │   │   ├── config_loader.py
+│   │   │   └── reasoning_curriculum.py
+│   │   ├── energy_layer/    # Energy consistency mechanisms
+│   │   │   └── energy_consistency.py
+│   │   ├── hypernetwork/    # Prior knowledge generation
+│   │   │   └── prior_generator.py
+│   │   ├── memory/          # Hierarchical memory systems
+│   │   │   └── hierarchical_memory.py
+│   │   ├── meta_learning/   # MAML/Reptile algorithms
+│   │   │   └── maml_reptile.py
+│   │   └── reasoning_organs/# Specialized reasoning heads
+│   │       └── reasoning_heads.py
+│   ├── utils/               # Path management and dynamic imports
 │   │   ├── path_manager.py
-│   │   └── dynamic_importer.py
-│   └── exceptions/
-│       ├── __init__.py
-│       └── resource_errors.py
-├── configs/
+│   │   ├── dynamic_importer.py
+│   │   └── resource_manager.py
+│   └── validation/          # Scaling law validation
+│       └── scaling_law_validator.py
+├── benchmarks/              # Initialization benchmarks
+│   └── initialization_benchmark.py
+├── configs/                 # 36+ YAML configurations
 │   ├── default.yaml
 │   ├── development.yaml
 │   ├── production.yaml
-│   └── test.yaml
-├── data/
-│   ├── raw/
+│   ├── 8gb_ram_test.yaml
+│   ├── curriculum.yaml
+│   ├── pre_intelligent_*.yaml
+│   └── [domain-specific configs: code, math, reasoning, scientific, etc.]
+├── data/                    # Sample and organized data
+│   ├── organized/
+│   │   └── code/
 │   ├── processed/
-│   │   ├── example_data.jsonl
-│   │   └── test_data.jsonl
-│   └── external/
-├── docs/
-│   └── TRAINING_MODES.md
-├── notebooks/
-├── scripts/
+│   └── raw/
+├── docs/                    # Documentation
+│   ├── INDEX.md
+│   ├── QUICKSTART.md
+│   ├── TRAINING_MODES.md
+│   ├── FAQ.md
+│   ├── TROUBLESHOOTING.md
+│   ├── architecture.md
+│   ├── configuration.md
+│   ├── curriculum_learning.md
+│   ├── intelligent_initialization.md
+│   └── api/
+├── examples/                # Demo scripts
+│   ├── pre_intelligent_demo.py
+│   ├── initialization_effectiveness_demo.py
+│   └── intelligent_initialization_demo.py
+├── scaling_law_results/     # Scaling law analysis
+│   ├── scaling_law_report.csv
+│   └── scaling_law_plot.png
+├── scripts/                 # CLI tools
 │   ├── train.py
 │   ├── evaluate.py
 │   ├── convert.py
-│   └── deploy.py
-├── tests/
-│   ├── __init__.py
+│   ├── deploy.py
+│   ├── demo_pre_intelligent.py
+│   ├── run_pre_intelligent_experiment.py
+│   ├── validate_scaling_law.py
+│   └── [data processing scripts]
+├── tests/                   # Comprehensive test suite
 │   ├── test_config.py
 │   ├── test_hardware.py
 │   ├── test_packager.py
@@ -133,21 +203,19 @@ bangkong/
 │   ├── test_trainer.py
 │   ├── test_processors.py
 │   └── run_tests.py
-├── .github/
-├── .devcontainer/
-├── .dockerignore
+├── validation/              # Initialization validators
+│   ├── initialization_validator.py
+│   └── enhanced_initialization_validator.py
 ├── .gitignore
-├── .env.example
-├── .env
+├── CITATION.cff
+├── CODE_OF_CONDUCT.md
+├── CONDA_SETUP.md
+├── LICENSE
 ├── README.md
+├── SECURITY.md
 ├── requirements.txt
-├── setup.py
-├── pyproject.toml
-├── Makefile
-├── CHANGELOG.md
-├── test_system.py
-├── test_training_manager.py
-└── LICENSE
+├── bangkong.bat             # Windows batch launcher
+└── bangkong_conda.bat       # Conda environment launcher
 ```
 
 ## Getting Started
@@ -156,6 +224,7 @@ bangkong/
 
 - Python 3.8+
 - Git
+- (Optional) Miniconda/Anaconda for environment management (see `CONDA_SETUP.md`)
 
 ### Installation
 
@@ -167,13 +236,12 @@ bangkong/
 
 2. Install dependencies:
    ```bash
-   pip install -e .
+   pip install -r requirements.txt
    ```
-
-3. Configure environment:
+   
+   Or use the Conda setup for an isolated environment:
    ```bash
-   cp .env.example .env
-   # Edit .env with your settings
+   bangkong_conda.bat  # Windows
    ```
 
 ### Quick Start
@@ -395,7 +463,7 @@ For detailed documentation, see [docs/configuration.md](docs/configuration.md) a
 1. Fork the repository
 2. Clone your fork:
    ```bash
-   git clone https://github.com/your-username/bangkong.git
+   git clone https://github.com/shadowofsorrow/bangkong.git
    cd bangkong
    ```
 
@@ -458,10 +526,10 @@ Please follow our Code of Conduct in all interactions.
 
 This project implements research from the paper:
 
-**Bangkong: Pre-Intelligent LLM Training System for Resources-Efficient Large Language Model**  
-*Author: Soni Nugraha*  
-**DOI:** [10.5281/zenodo.19387331](https://doi.org/10.5281/zenodo.19387331)  
-*Published: April 2, 2026*  
+**Bangkong: Pre-Intelligent LLM Training System for Resources-Efficient Large Language Model**
+*Author: Soni Nugraha*
+**DOI:** [10.5281/zenodo.19387331](https://doi.org/10.5281/zenodo.19387331)
+*Published: April 2, 2026*
 *License: [CC-BY 4.0](https://creativecommons.org/licenses/by/4.0/)*
 
 ### Cite This Work
@@ -490,22 +558,22 @@ This project implements research from the paper:
 
 ---
 
-## 💼 Available for Hire & Consulting
+## 💼 Consulting & Collaborations
 
-**Looking for custom LLM solutions? I can help!**
+**For businesses:**
+- Custom LLM Training
+- Low-Resource Optimization
+- AI Implementation
 
-I offer professional services for:
+Project budgets typically start at $5K. Contact for scoping.
 
-### Services
+**For co-founders/partners:**
+- Equity-based collaborations
+- Research partnerships
+- Joint ventures
+Let's discuss vision and fit.
 
-- **Custom LLM Training** - Train models on your business data
-- **Domain Fine-tuning** - Adapt existing models to your domain
-- **Low-Resource Optimization** - Optimize models for limited hardware
-- **Deployment & Setup** - Production deployment of LLM systems
-- **Training Workshops** - Hands-on LLM training for your team
-- **Consulting** - Expert advice on LLM strategy
-
-**💰 Typical project range: $5K-50K** (depending on scope and requirements)
+**Contact:** bilbobangkong@gmail.com
 
 ### ☕ Support This Project
 
@@ -517,18 +585,18 @@ Every coffee helps keep the Q8400 running! 😂
 
 ### Why Work With Me?
 
-✅ **Published Research** - DOI: 10.5281/zenodo.19387331  
-✅ **Proven Efficiency** - 40% reduction in training tokens  
-✅ **Resource-Constrained Expert** - Trained on 8GB RAM (your costs: 90% less)  
-✅ **Production-Ready** - Full pipeline from data to deployment  
-✅ **Flexible Engagement** - From quick consulting to full projects  
+✅ **Published Research** - DOI: 10.5281/zenodo.19387331
+✅ **Proven Efficiency** - 40% reduction in training tokens
+✅ **Resource-Constrained Expert** - Trained on 8GB RAM (your costs: 90% less)
+✅ **Production-Ready** - Full pipeline from data to deployment
+✅ **Flexible Engagement** - From quick consulting to full projects
 
 ### Get In Touch
 
-📧 **Email:** bilbobangkong@gmail.com  
-💼 **LinkedIn:** www.linkedin.com/in/soni-nugraha-467a1766  
-📄 **GitHub:** [This Repository]  
-☕ **Ko-fi:** https://ko-fi.com/bilbobangkong  
+📧 **Email:** bilbobangkong@gmail.com
+💼 **LinkedIn:** www.linkedin.com/in/soni-nugraha-467a1766
+📄 **GitHub:** [This Repository]
+☕ **Ko-fi:** https://ko-fi.com/bilbobangkong
 
 **Response Time:** Usually within 24-48 hours
 
@@ -565,6 +633,15 @@ Every coffee helps keep the Q8400 running! 😂
 - Recommend 16GB+ RAM for larger models
 - GPU acceleration supported (CUDA 11.8+)
 - Cloud deployment options available
+
+## 🙏 Acknowledgments
+
+This project builds upon:
+- **GPT-2** (OpenAI, 2019) - https://github.com/openai/gpt-2
+- **Transformer Architecture** (Vaswani et al., 2017) - https://arxiv.org/abs/1706.03762
+- **Hugging Face Transformers** - https://github.com/huggingface/transformers
+Bangkong is an **enhancement framework** for GPT-2, not a novel architecture.
+Our contribution is Pre-Intelligent Initialization and the training system.
 
 ---
 
