@@ -216,6 +216,8 @@ bangkong/
 ├── requirements.txt
 ├── bangkong.bat             # Windows batch launcher
 └── bangkong_conda.bat       # Conda environment launcher
+└── pyproject.toml       
+└── setup.py
 ```
 
 ## Getting Started
