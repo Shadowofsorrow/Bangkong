@@ -585,18 +585,18 @@ Every coffee helps keep the Q8400 running! 😂
 
 ### Why Work With Me?
 
-✅ **Published Research** - DOI: 10.5281/zenodo.19387331
-✅ **Proven Efficiency** - 40% reduction in training tokens
-✅ **Resource-Constrained Expert** - Trained on 8GB RAM (your costs: 90% less)
-✅ **Production-Ready** - Full pipeline from data to deployment
-✅ **Flexible Engagement** - From quick consulting to full projects
+ - ✅ **Published Research** - DOI: 10.5281/zenodo.19387331
+ - ✅ **Proven Efficiency** - 40% reduction in training tokens
+ - ✅ **Resource-Constrained Expert** - Trained on 8GB RAM (your costs: 90% less)
+ - ✅ **Production-Ready** - Full pipeline from data to deployment
+ - ✅ **Flexible Engagement** - From quick consulting to full projects
 
 ### Get In Touch
 
-📧 **Email:** bilbobangkong@gmail.com
-💼 **LinkedIn:** www.linkedin.com/in/soni-nugraha-467a1766
-📄 **GitHub:** [This Repository]
-☕ **Ko-fi:** https://ko-fi.com/bilbobangkong
+ - 📧 **Email:** bilbobangkong@gmail.com
+ - 💼 **LinkedIn:** www.linkedin.com/in/soni-nugraha-467a1766
+ - 📄 **GitHub:** [This Repository]
+ - ☕ **Ko-fi:** https://ko-fi.com/bilbobangkong
 
 **Response Time:** Usually within 24-48 hours
 
