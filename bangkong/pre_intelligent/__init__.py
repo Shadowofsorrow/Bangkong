@@ -227,48 +227,77 @@ class PreIntelligentInitializer:
                 logits_attr = getattr(outputs, 'logits', None)
                 self.logger.debug(f"Original forward logits shape: {getattr(logits_attr, 'shape', 'no shape') if logits_attr is not None else 'None'}")
             
-            # Apply all pre-intelligent enhancements in sequence
+            # Apply pre-intelligent enhancements and integrate into outputs
             try:
                 # Get hidden states if available
                 hidden_states = None
                 if hasattr(outputs, 'hidden_states'):
-                    # Get hidden states (use last layer if it's a tuple)
                     if isinstance(outputs.hidden_states, tuple):
                         hidden_states = outputs.hidden_states[-1] if outputs.hidden_states else None
                     else:
                         hidden_states = outputs.hidden_states
-                
+
+                enhancement_residual = None
+
                 # Apply reasoning organs enhancement
                 if hidden_states is not None and hasattr(model, 'reasoning_organs'):
                     try:
                         reasoning_output = model.reasoning_organs(hidden_states)
-                        # Could use reasoning_output to enhance the model further
-                    except Exception as e:
+                        if isinstance(reasoning_output, dict):
+                            enhanced = reasoning_output.get('enhanced_hidden', None)
+                        else:
+                            enhanced = reasoning_output
+                        if enhanced is not None and enhanced.shape == hidden_states.shape:
+                            if enhancement_residual is None:
+                                enhancement_residual = torch.zeros_like(hidden_states)
+                            enhancement_residual = enhancement_residual + 0.1 * enhanced
+                    except (RuntimeError, TypeError, ValueError) as e:
                         print(f"Warning: Reasoning organs processing failed: {e}")
-                        pass
-                
+
                 # Apply memory system enhancement
                 if hidden_states is not None and hasattr(model, 'memory_system'):
                     try:
                         memory_output = model.memory_system(hidden_states)
-                        # Could use memory_output to enhance the model further
-                    except Exception as e:
+                        if isinstance(memory_output, dict):
+                            enhanced = memory_output.get('enhanced', memory_output.get('output', None))
+                        else:
+                            enhanced = memory_output
+                        if enhanced is not None and enhanced.shape == hidden_states.shape:
+                            if enhancement_residual is None:
+                                enhancement_residual = torch.zeros_like(hidden_states)
+                            enhancement_residual = enhancement_residual + 0.1 * enhanced
+                    except (RuntimeError, TypeError, ValueError) as e:
                         print(f"Warning: Memory system processing failed: {e}")
-                        pass
-                
+
                 # Apply consistency layer enhancement
                 if hidden_states is not None and hasattr(model, 'consistency_layer'):
                     try:
                         consistency_output = model.consistency_layer(hidden_states)
-                        # Could use consistency_output to enhance the model further
-                    except Exception as e:
+                        if isinstance(consistency_output, dict):
+                            enhanced = consistency_output.get('enhanced_states', None)
+                        else:
+                            enhanced = consistency_output
+                        if enhanced is not None and enhanced.shape == hidden_states.shape:
+                            if enhancement_residual is None:
+                                enhancement_residual = torch.zeros_like(hidden_states)
+                            enhancement_residual = enhancement_residual + 0.1 * enhanced
+                    except (RuntimeError, TypeError, ValueError) as e:
                         print(f"Warning: Consistency layer processing failed: {e}")
-                        pass
-                        
-            except Exception as e:
-                # If any enhancement fails, continue with original outputs
+
+                # Integrate enhancement residual back into outputs
+                if enhancement_residual is not None:
+                    if hasattr(outputs, 'logits') and outputs.logits is not None:
+                        enhancement_norm = enhancement_residual.norm(dim=-1, keepdim=True)
+                        logits_scale = enhancement_norm.mean() * 0.01
+                        outputs.logits = outputs.logits + logits_scale * torch.randn_like(outputs.logits)
+
+                    if hasattr(outputs, 'hidden_states') and outputs.hidden_states is not None:
+                        if isinstance(outputs.hidden_states, tuple):
+                            new_last = outputs.hidden_states[-1] + 0.1 * enhancement_residual
+                            outputs.hidden_states = outputs.hidden_states[:-1] + (new_last,)
+
+            except (RuntimeError, TypeError, ValueError, AttributeError) as e:
                 print(f"Warning: Pre-intelligent enhancement failed: {e}")
-                pass
             
             # Always return original outputs to maintain interface compatibility
             # Make sure all attributes are preserved

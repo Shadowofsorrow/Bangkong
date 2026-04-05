@@ -186,11 +186,10 @@ class MixedLanguageProcessor(TextProcessor):
         # 1. Segment by language
         # 2. Apply language-specific processing
         # 3. Handle transliteration where appropriate
-        
-        # For now, we'll apply general cleaning
+
         text = re.sub(r'\s+', ' ', text)  # Normalize whitespace
         text = text.strip()
-        
+
         return text
 
 

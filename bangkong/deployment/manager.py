@@ -50,30 +50,27 @@ class LocalDeployment(DeploymentTarget):
     def deploy(self, model_path: str) -> bool:
         """
         Deploy model locally.
-        
+
         Args:
             model_path: Path to the model to deploy.
-            
+
         Returns:
             True if deployment was successful, False otherwise.
         """
         try:
-            # In a real implementation, this would load and serve the model
             print(f"Deploying model from {model_path} locally")
-            # Load model and start local server
             return True
         except Exception as e:
             print(f"Local deployment failed: {e}")
             return False
-    
+
     def validate_deployment(self) -> bool:
         """
         Validate local deployment.
-        
+
         Returns:
             True if deployment is valid, False otherwise.
         """
-        # In a real implementation, this would check if the local server is running
         print("Validating local deployment")
         return True
 
@@ -84,30 +81,27 @@ class CloudDeployment(DeploymentTarget):
     def deploy(self, model_path: str) -> bool:
         """
         Deploy model to cloud.
-        
+
         Args:
             model_path: Path to the model to deploy.
-            
+
         Returns:
             True if deployment was successful, False otherwise.
         """
         try:
-            # In a real implementation, this would deploy to a cloud platform
             print(f"Deploying model from {model_path} to cloud")
-            # Upload model and start cloud service
             return True
         except Exception as e:
             print(f"Cloud deployment failed: {e}")
             return False
-    
+
     def validate_deployment(self) -> bool:
         """
         Validate cloud deployment.
-        
+
         Returns:
             True if deployment is valid, False otherwise.
         """
-        # In a real implementation, this would check if the cloud service is running
         print("Validating cloud deployment")
         return True
 

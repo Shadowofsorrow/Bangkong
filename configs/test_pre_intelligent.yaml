@@ -5,7 +5,7 @@ model:
   name: "pre-intelligent-test"
   architecture: "gpt2"
   size: "tiny"
-  vocab_size: 1000          # Tiny vocab for fast testing
+  vocab_size: 50257         # Must match GPT-2 tokenizer vocab
   hidden_size: 32           # Minimal hidden size
   num_layers: 1             # Single layer
   num_heads: 2              # Minimum heads
