@@ -487,24 +487,6 @@ flake8 .
 mypy .
 ```
 
-### Testing
-
-The project includes comprehensive tests:
-
-```bash
-# Run all tests
-python -m pytest tests/
-
-# Run specific test files
-python -m pytest tests/test_config.py
-
-# Run tests with verbose output
-python -m pytest -v tests/
-
-# Run all tests with the test runner
-python tests/run_tests.py
-```
-
 ## Contributing
 
 We welcome contributions to the Bangkong LLM Training System!
