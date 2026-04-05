@@ -116,10 +116,10 @@ desktop.ini
 *.pkl
 
 # Model directories (keep structure, not weights)
-models/
-checkpoints/
-trained_models/
-pretrained/
+/models/
+/checkpoints/
+/trained_models/
+/pretrained/
 
 # TensorBoard logs
 logs/
