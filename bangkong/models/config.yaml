@@ -1,0 +1,145 @@
+# Models Configuration
+models:
+  # Cosine clustered embeddings settings
+  cosine_clustered_embeddings:
+    # Factorial calculation settings
+    factorial_cap: 11
+    small_factorial_cap: 10
+    
+    # Prototype generation settings
+    default_prototypes_per_group: 8
+    repulsion:
+      default_iters: 50
+      default_scale: 0.02
+    
+    # Domain group definitions
+    domain_groups:
+      reasoning:
+        proportion: 0.15
+        name: "reasoning"
+      logic:
+        proportion: 0.15
+        name: "logic"
+      planning:
+        proportion: 0.20
+        name: "planning"
+      general:
+        proportion: 0.50
+        name: "general"
+      math_numbers:
+        proportion: 0.20
+        name: "numbers"
+      math_operators:
+        proportion: 0.15
+        name: "operators"
+      math_variables:
+        proportion: 0.10
+        name: "variables"
+      math_general:
+        proportion: 0.55
+        name: "math_general"
+      code_keywords:
+        proportion: 0.15
+        name: "keywords"
+      code_operators:
+        proportion: 0.15
+        name: "operators"
+      code_identifiers:
+        proportion: 0.20
+        name: "identifiers"
+      code_literals:
+        proportion: 0.10
+        name: "literals"
+      code_general:
+        proportion: 0.40
+        name: "code_general"
+    
+    # Complexity scaling parameters
+    complexity_scaling:
+      repel_iters_base: 8
+      repel_iters_increment_factor: 2
+      repel_scale_base: 0.03
+      repel_scale_increment_factor: 0.005
+      noise_scale_base: 0.01
+      noise_scale_increment_factor: 0.3
+      noise_scale_complexity_factor: 10.0
+    
+    # Prototype count parameters
+    prototype_count:
+      base_increment_factor: 0.2
+      min_prototypes: 1
+  
+  # Attention specialization settings
+  attention_specialization:
+    # Pattern weights for different domains
+    reasoning_patterns:
+      causal: 0.3
+      logical: 0.25
+      temporal: 0.2
+      spatial: 0.15
+      general: 0.1
+    
+    math_patterns:
+      sequential: 0.35
+      structural: 0.3
+      numerical: 0.2
+      general: 0.15
+    
+    code_patterns:
+      syntactic: 0.3
+      semantic: 0.25
+      control: 0.2
+      data: 0.15
+      general: 0.1
+    
+    # Pattern creation parameters
+    local_focus:
+      step_size: 8
+      window_size: 4
+      long_range_distance: 8
+      long_range_weight: 0.5
+    
+    temporal_reasoning:
+      window_range: 10
+    
+    noise_factors:
+      general: 0.1
+    
+    structural_patterns:
+      block_size_base: 8
+      block_size_divisor: 16
+      cluster_size_min: 8
+      cluster_size_divisor: 32
+    
+    control_flow:
+      forward_range: 32
+      backward_range: 16
+    
+    data_structures:
+      stride_min: 4
+      stride_divisor: 64
+  
+  # Pre-intelligent initialization settings
+  pre_intelligent:
+    latent_dim: 128
+    knowledge_dim: 64
+    adapter_rank: 8
+    hidden_size: 768
+    scratchpad_size: 64
+    context_size: 128
+    semantic_size: 256
+    energy_dim: 256
+    curriculum_samples: 1000
+    difficulty_range: [1, 5]
+  
+  # Scaling law validator settings
+  scaling_law_validator:
+    output_dir: "./scaling_law_results"
+    alpha: 0.8
+    target_N_ref: 350000000.0  # 350M params reference
+    target_T_ref: 1000000000.0  # 1 billion tokens reference
+    gpu_hours_ref: 1000.0
+    plot_range:
+      min: 50000000.0  # 50M
+      max: 10000000000.0  # 10B
+    plot_points: 200
