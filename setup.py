@@ -9,8 +9,8 @@ with open("requirements.txt", "r", encoding="utf-8") as fh:
 setup(
     name="bangkong-llm",
     version="0.1.0",
-    author="Bangkong AI Team",
-    author_email="ai@bangkong.com",
+    author="Soni Nugraha",
+    author_email="bilbobangkong@gmail.com",
     description="A production-ready, cloud-native system for training and deploying large language models",
     long_description=long_description,
     long_description_content_type="text/markdown",
