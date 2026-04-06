@@ -9,7 +9,7 @@ description = "A production-ready, cloud-native system for training and deployin
 readme = "README.md"
 license = {file = "LICENSE"}
 authors = [
-    {name = "Bangkong AI Team", email = "ai@bangkong.com"},
+    {name = "Soni Nugraha", email = "bilbobangkong@gmail.com"},
 ]
 classifiers = [
     "Development Status :: 3 - Alpha",
