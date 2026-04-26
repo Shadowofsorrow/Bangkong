@@ -12,16 +12,16 @@ import copy
 
 class MetaLearningTask(ABC):
     """Abstract base class for meta-learning tasks."""
-    
+
     @abstractmethod
     def sample_batch(self, batch_size: int) -> Tuple[torch.Tensor, torch.Tensor]:
         """Sample a batch of data for this task."""
-        pass
-    
+        raise NotImplementedError("Subclasses must implement sample_batch method")
+
     @abstractmethod
     def get_model(self) -> nn.Module:
         """Get a model suitable for this task."""
-        pass
+        raise NotImplementedError("Subclasses must implement get_model method")
 
 class ArithmeticTask(MetaLearningTask):
     """Simple arithmetic task for meta-learning."""

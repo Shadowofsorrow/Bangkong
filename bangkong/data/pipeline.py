@@ -25,8 +25,13 @@ class DataPipeline:
     
     def _initialize_processors(self):
         """Initialize data processors based on configuration."""
-        # Processors are loaded dynamically when needed
-        pass
+        # Initialize processors based on configuration
+        from .processors.text_processor import TextProcessor
+        from .processors.base_processor import DataProcessor
+        
+        # Create text processor if needed
+        if "text" not in self.processors:
+            self.processors["text"] = TextProcessor(self.config)
     
     def load_data(self, data_path: str, data_type: str = "text") -> Any:
         """

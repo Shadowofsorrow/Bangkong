@@ -17,7 +17,7 @@ from bangkong.utils.path_manager import PathManager
 def find_default_model_path():
     """Find default model path based on common locations."""
     path_manager = PathManager()
-    
+
     # Check common model paths
     common_paths = [
         "./models",
@@ -26,7 +26,7 @@ def find_default_model_path():
         "~/models/bangkong",
         os.environ.get("BANGKONG_MODELS_PATH", "")
     ]
-    
+
     for path_str in common_paths:
         if path_str:
             try:
@@ -37,9 +37,9 @@ def find_default_model_path():
                     for model_file in path.glob("*"):
                         if model_file.is_dir() or model_file.suffix in ['.pt', '.pth', '.bin']:
                             return str(path)
-            except:
+            except Exception:
                 continue
-    
+
     return None
 
 
@@ -48,18 +48,36 @@ def main():
     parser = argparse.ArgumentParser(description="Deploy model with Bangkong")
     parser.add_argument("--config", type=str, help="Path to configuration file")
     parser.add_argument("--model-path", type=str, help="Path to the model to deploy")
-    parser.add_argument("--target", type=str, default="local", 
+    parser.add_argument("--target", type=str, default="local",
                        help="Deployment target (local, cloud, hybrid)")
-    
+    parser.add_argument("--validate-only", action="store_true",
+                        help="Only validate deployment without actually deploying")
+
     args = parser.parse_args()
-    
+
     # Load configuration
     config_loader = ConfigLoader(args.config)
     config = config_loader.config
-    
+
     # Initialize deployment manager
     deployment_manager = DeploymentManager(config)
-    
+
+    # Handle validation only mode
+    if args.validate_only:
+        # Only validate the deployment
+        print(f"Validating {args.target} deployment...")
+        try:
+            success = deployment_manager.validate_deployment(args.target)
+            if success:
+                print("Deployment validation successful!")
+            else:
+                print("Deployment validation failed!")
+                sys.exit(1)
+        except Exception as e:
+            print(f"Validation error: {e}")
+            sys.exit(1)
+        return
+
     # Determine model path
     model_path = args.model_path
     if not model_path:
@@ -70,10 +88,10 @@ def main():
         else:
             print("Error: No model path found. Please provide a model path.")
             sys.exit(1)
-    
+
     # Deploy model
     print(f"Deploying model from {model_path} to {args.target}")
-    
+
     try:
         success = deployment_manager.deploy(model_path, args.target)
         if success:

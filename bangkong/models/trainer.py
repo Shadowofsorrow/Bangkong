@@ -801,8 +801,9 @@ class DynamicTrainer:
         try:
             import time
             training_start_time = time.time()
-        except:
-            pass
+        except ImportError:
+            # time module is part of standard library, but handle gracefully
+            training_start_time = None
         
         best_val_loss = float('inf')
         no_improvement_count = 0
@@ -834,7 +835,9 @@ class DynamicTrainer:
             try:
                 import time
                 time.sleep(0.1)
-            except:
+            except ImportError:
+                # time module is part of standard library, but handle gracefully
+                # If sleep fails, continue without delay
                 pass
             
             # Training phase
@@ -842,7 +845,9 @@ class DynamicTrainer:
             try:
                 import time
                 train_start_time = time.time()
-            except:
+            except ImportError:
+                # time module is part of standard library, but handle gracefully
+                # If sleep fails, continue without delay
                 pass
             
             # Initialize training progress bar
@@ -906,7 +911,9 @@ class DynamicTrainer:
                     train_duration = time.time() - train_start_time
                     print(f"   Train Loss: {avg_train_loss:.4f}")
                     print(f"   Time: {train_duration:.2f}s")
-                except:
+                except ImportError:
+                    # time module is part of standard library, but handle gracefully
+                    # If timing fails, continue without showing duration
                     pass
             
             # Validation phase (if provided)
@@ -915,7 +922,9 @@ class DynamicTrainer:
                 try:
                     import time
                     val_start_time = time.time()
-                except:
+                except ImportError:
+                    # time module is part of standard library, but handle gracefully
+                    # If timing fails, continue without showing duration
                     pass
                 
                 # Initialize validation progress bar
@@ -994,7 +1003,9 @@ class DynamicTrainer:
                         import time
                         val_duration = time.time() - val_start_time
                         print(f"   Validation Time: {val_duration:.2f}s")
-                    except:
+                    except ImportError:
+                        # time module is part of standard library, but handle gracefully
+                        # If timing fails, continue without showing duration
                         pass
                 
                 # Check if this is the best model so far

@@ -186,6 +186,13 @@ class DeploymentConfig(BaseModel):
         "port": 8000,
         "workers": 1
     }
+    local_deploy_dir: str = "./deployed_models"
+    aws: Dict[str, str] = {
+        "bucket_name": "bangkong-models",
+        "region": "us-east-1",
+        "access_key_id": "",
+        "secret_access_key": ""
+    }
 
 
 class PathsConfig(BaseModel):

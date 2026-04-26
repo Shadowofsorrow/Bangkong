@@ -87,7 +87,9 @@ class HardwareDetector:
                         continue
         except Exception:
             # If CUDA is not available or fails, return empty list
-            pass
+            # Log the error for debugging purposes
+            import logging
+            logging.warning("CUDA not available or failed to initialize", exc_info=True)
         return gpu_info
     
     @staticmethod

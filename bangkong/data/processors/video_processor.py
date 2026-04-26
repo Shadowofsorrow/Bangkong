@@ -69,8 +69,12 @@ class VideoProcessor(DataProcessor):
         
         # If we need to adjust FPS, we can sample frames accordingly
         if target_fps and len(data) > 0:
-            # This is a simplified approach - in practice, more sophisticated methods would be used
-            pass
+            # Calculate the number of frames to keep based on target FPS
+            current_fps = len(data) / video_duration if video_duration > 0 else 30  # Assume 30 FPS if not provided
+            if current_fps > target_fps:
+                # Downsample frames
+                frame_interval = int(current_fps / target_fps)
+                preprocessed_frames = preprocessed_frames[::frame_interval]
         
         return preprocessed_frames
     

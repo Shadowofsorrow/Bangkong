@@ -15,11 +15,11 @@ from .config_loader import get_config
 
 class SyntheticReasoningTask(ABC):
     """Base class for synthetic reasoning tasks."""
-    
+
     def __init__(self, task_type: str, difficulty: int = 1):
         """
         Initialize synthetic reasoning task.
-        
+
         Args:
             task_type: Type of reasoning task
             difficulty: Difficulty level (1-5)
@@ -27,16 +27,16 @@ class SyntheticReasoningTask(ABC):
         self.task_type = task_type
         self.difficulty = difficulty
         self.config = get_config()
-    
+
     @abstractmethod
     def generate_sample(self) -> Dict[str, Any]:
         """Generate a single sample for this task."""
-        pass
-    
+        raise NotImplementedError("Subclasses must implement generate_sample method")
+
     @abstractmethod
     def get_prompt_template(self) -> str:
         """Get prompt template for this task."""
-        pass
+        raise NotImplementedError("Subclasses must implement get_prompt_template method")
 
 class ArithmeticChainTask(SyntheticReasoningTask):
     """Arithmetic chain reasoning task."""

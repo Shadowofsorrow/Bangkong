@@ -127,7 +127,8 @@ def find_default_data_path():
                 path = path_manager.resolve_path(path_str)
                 if path.exists():
                     return str(path)
-            except:
+            except Exception:
+                # Continue with next path if current one fails
                 continue
     
     return None
@@ -153,7 +154,8 @@ def find_default_output_path():
                 # Create directory if it doesn't exist
                 path.mkdir(parents=True, exist_ok=True)
                 return str(path)
-            except:
+            except Exception:
+                # Continue with next path if current one fails
                 continue
     
     # Default to current directory
@@ -227,8 +229,9 @@ def _create_fallback_model(config):
     # Explicitly set the loss type to prevent warnings
     try:
         model.config.loss_type = "ForCausalLMLoss"
-    except:
-        pass  # If it can't be set, that's fine
+    except (AttributeError, KeyError):
+        # If it can't be set, that's fine
+        pass
     
     return model
 
@@ -404,7 +407,7 @@ def main():
             try:
                 tokenizer = GPT2Tokenizer.from_pretrained(selected_model["path"])
                 logger.info(f"Loaded tokenizer from existing model: {selected_model['path']}")
-            except:
+            except Exception:
                 # Fall back to default tokenizer
                 tokenizer = GPT2Tokenizer.from_pretrained('gpt2')
                 logger.info("Using default GPT-2 tokenizer")

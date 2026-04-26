@@ -44,7 +44,7 @@ def find_default_model_path():
                     for model_file in path.glob("*"):
                         if model_file.is_dir() or model_file.suffix in ['.pt', '.pth', '.bin']:
                             return str(path)
-            except:
+            except Exception:
                 continue
     
     return None
@@ -74,7 +74,7 @@ def find_default_output_path(model_path):
                 path = path_manager.resolve_path(path_str)
                 path.mkdir(parents=True, exist_ok=True)
                 return str(path)
-            except:
+            except Exception:
                 continue
     
     return "./converted_models"
@@ -112,7 +112,7 @@ def load_model_and_tokenizer(model_path):
                 # Try to load tokenizer
                 try:
                     tokenizer = AutoTokenizer.from_pretrained(model_path)
-                except:
+                except Exception:
                     # Create a default GPT-2 tokenizer
                     tokenizer = AutoTokenizer.from_pretrained('gpt2')
                     if tokenizer.pad_token is None:

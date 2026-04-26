@@ -36,7 +36,7 @@ def find_default_model_path():
                     for model_file in path.glob("*"):
                         if model_file.is_dir() or model_file.suffix in ['.pt', '.pth', '.bin']:
                             return str(path)
-            except:
+            except Exception:
                 continue
     
     return None
@@ -63,7 +63,7 @@ def find_default_data_path():
                 path = path_manager.resolve_path(path_str)
                 if path.exists():
                     return str(path)
-            except:
+            except Exception:
                 continue
     
     return None

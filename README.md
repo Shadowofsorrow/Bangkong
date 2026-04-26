@@ -18,6 +18,32 @@ The system is designed to run efficiently on constrained hardware, validated on 
 
 ## Research
 
+The system is based on the research paper "Pre-Intelligent Initialization: Embedding Structured Knowledge into LLM Weights for Resource-Efficient Training" (2026).
+
+---
+
+## API Server
+
+Bangkong now includes a FastAPI-based API server for serving trained models. This allows you to deploy your models as REST APIs for inference.
+
+### Features
+- FastAPI-based REST API for model inference
+- Support for multiple deployment targets (local, cloud)
+- Health check and model information endpoints
+- Configurable deployment options
+
+### Usage
+To start the API server:
+```bash
+python scripts/start_api.py
+```
+
+For more information about the API, see [API Documentation](bangkong/api/README.md).
+
+---
+
+## Research
+
 This project implements research from:
 
 > **Bangkong: Pre-Intelligent LLM Training System for Resource-Efficient Large Language Model**
