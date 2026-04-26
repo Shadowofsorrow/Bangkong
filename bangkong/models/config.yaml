@@ -5,13 +5,13 @@ models:
     # Factorial calculation settings
     factorial_cap: 11
     small_factorial_cap: 10
-    
+
     # Prototype generation settings
     default_prototypes_per_group: 8
     repulsion:
       default_iters: 50
       default_scale: 0.02
-    
+
     # Domain group definitions
     domain_groups:
       reasoning:
@@ -53,7 +53,7 @@ models:
       code_general:
         proportion: 0.40
         name: "code_general"
-    
+
     # Complexity scaling parameters
     complexity_scaling:
       repel_iters_base: 8
@@ -63,12 +63,12 @@ models:
       noise_scale_base: 0.01
       noise_scale_increment_factor: 0.3
       noise_scale_complexity_factor: 10.0
-    
+
     # Prototype count parameters
     prototype_count:
       base_increment_factor: 0.2
       min_prototypes: 1
-  
+
   # Attention specialization settings
   attention_specialization:
     # Pattern weights for different domains
@@ -78,47 +78,47 @@ models:
       temporal: 0.2
       spatial: 0.15
       general: 0.1
-    
+
     math_patterns:
       sequential: 0.35
       structural: 0.3
       numerical: 0.2
       general: 0.15
-    
+
     code_patterns:
       syntactic: 0.3
       semantic: 0.25
       control: 0.2
       data: 0.15
       general: 0.1
-    
+
     # Pattern creation parameters
     local_focus:
       step_size: 8
       window_size: 4
       long_range_distance: 8
       long_range_weight: 0.5
-    
+
     temporal_reasoning:
       window_range: 10
-    
+
     noise_factors:
       general: 0.1
-    
+
     structural_patterns:
       block_size_base: 8
       block_size_divisor: 16
       cluster_size_min: 8
       cluster_size_divisor: 32
-    
+
     control_flow:
       forward_range: 32
       backward_range: 16
-    
+
     data_structures:
       stride_min: 4
       stride_divisor: 64
-  
+
   # Pre-intelligent initialization settings
   pre_intelligent:
     latent_dim: 128
@@ -131,7 +131,16 @@ models:
     energy_dim: 256
     curriculum_samples: 1000
     difficulty_range: [1, 5]
-  
+
+  # Hierarchical memory settings
+  memory:
+    scratchpad_size: 64
+    context_size: 128
+    semantic_size: 256
+    enable_scratchpad: true
+    enable_context: true
+    enable_semantic: true
+
   # Scaling law validator settings
   scaling_law_validator:
     output_dir: "./scaling_law_results"

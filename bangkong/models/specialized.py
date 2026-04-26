@@ -7,21 +7,23 @@ import torch.nn as nn
 from typing import Optional, Dict, Any
 from transformers import GPT2Model, GPT2Config, GPT2LMHeadModel
 from ..config.schemas import BangkongConfig
+# Use the existing hierarchical memory from pre_intelligent
+from ..pre_intelligent.memory.hierarchical_memory import HierarchicalMemory
 
 
 class CodeGPT2Model(nn.Module):
     """Specialized GPT-2 model for code generation and understanding."""
-    
+
     def __init__(self, config: BangkongConfig):
         """
         Initialize code-specialized GPT-2 model.
-        
+
         Args:
             config: Bangkong configuration
         """
         super().__init__()
         self.config = config
-        
+
         # Create GPT-2 configuration with code-specific settings
         gpt2_config = GPT2Config(
             vocab_size=config.model.vocab_size,
@@ -35,13 +37,21 @@ class CodeGPT2Model(nn.Module):
             attn_pdrop=0.1,
             layer_norm_epsilon=1e-5,  # Tighter layer norm for code
         )
-        
+
         # Initialize transformer
         self.transformer = GPT2Model(gpt2_config)
-        
+
         # Code-specific output layer with bias
         self.lm_head = nn.Linear(config.model.hidden_size, config.model.vocab_size, bias=True)
-        
+
+        # Initialize hierarchical memory system
+        self.hierarchical_memory = HierarchicalMemory(
+            hidden_size=config.model.hidden_size,
+            scratchpad_size=64,
+            context_size=128,
+            semantic_size=256
+        )
+
         # Initialize weights
         self.init_weights()
     

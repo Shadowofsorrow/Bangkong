@@ -48,6 +48,18 @@ This project implements research from:
 
 > **Bangkong: Pre-Intelligent LLM Training System for Resource-Efficient Large Language Model**
 > Author: Soni Nugraha
+
+## Hierarchical Memory System
+
+Bangkong implements a three-tier differentiable memory system that enhances model reasoning capabilities:
+
+- **Scratchpad Memory (64 slots)**: Immediate computation context for transient information
+- **Context Memory (128 slots)**: Session/topic information for mid-term context
+- **Semantic Memory (256 slots)**: Persistent knowledge storage for long-term information
+
+This hierarchical memory system allows the model to maintain different types of information with appropriate temporal scopes, improving reasoning and context management.
+
+For more details, see the [Hierarchical Memory Documentation](docs/hierarchical_memory.md).
 > DOI: [10.5281/zenodo.19387331](https://doi.org/10.5281/zenodo.19387331)
 > Published: April 2, 2026
 > License: [CC-BY 4.0](https://creativecommons.org/licenses/by/4.0/)
