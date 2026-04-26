@@ -5,7 +5,7 @@ Specialized model architectures for Bangkong LLM Training System
 import torch
 import torch.nn as nn
 from typing import Optional, Dict, Any
-from transformers import GPT2Model, GPT2Config
+from transformers import GPT2Model, GPT2Config, GPT2LMHeadModel
 from ..config.schemas import BangkongConfig
 
 
@@ -321,15 +321,15 @@ class ScientificGPT2Model(nn.Module):
 def create_specialized_model(config: BangkongConfig) -> nn.Module:
     """
     Create a specialized model based on domain configuration.
-    
+
     Args:
         config: Bangkong configuration
-        
+
     Returns:
         Specialized model
     """
     domain = getattr(config.model, 'domain', 'general')
-    
+
     if domain == 'code':
         return CodeGPT2Model(config)
     elif domain == 'math':
@@ -337,7 +337,8 @@ def create_specialized_model(config: BangkongConfig) -> nn.Module:
     elif domain == 'scientific':
         return ScientificGPT2Model(config)
     else:
-        # Default to standard GPT-2 model
+        # Default to standard GPT-2 model with language modeling head
+        from transformers import GPT2LMHeadModel
         gpt2_config = GPT2Config(
             vocab_size=config.model.vocab_size,
             n_positions=config.model.sequence_length,
@@ -345,4 +346,4 @@ def create_specialized_model(config: BangkongConfig) -> nn.Module:
             n_layer=config.model.num_layers,
             n_head=config.model.num_heads,
         )
-        return GPT2Model(gpt2_config)
+        return GPT2LMHeadModel(gpt2_config)

@@ -1,522 +1,32 @@
 # Bangkong LLM Training System
 
-**A production-ready, cloud-native system for training and deploying large language models with Pre-Intelligent Initialization.**
+**A training system for causal language models with Pre-Intelligent Initialization — enabling resource-efficient training on constrained hardware.**
 
 ---
 
-## 📄 Research Paper
+## Overview
 
-This project is based on **published research**:
+Bangkong is an LLM training system that introduces **Pre-Intelligent Initialization** — a method for embedding structured knowledge into model weights at creation time, before training begins. Models initialized with domain-aware structured priors require fewer training tokens to reach target performance.
 
-> **Bangkong: Pre-Intelligent LLM Training System for Resources-Efficient Large Language Models**
-> **Author:** Soni Nugraha
-> **DOI:** [10.5281/zenodo.19387331](https://doi.org/10.5281/zenodo.19387331)
-> **Published:** April 2, 2026
-> **License:** [CC-BY 4.0 International](https://creativecommons.org/licenses/by/4.0/)
+The system is designed to run efficiently on constrained hardware, validated on consumer-grade CPUs with limited memory.
+
+**Key Results:**
+- Validated on Intel Core 2 Quad Q8400 (2008), 8 GB RAM, CPU-only
+- Published research: [DOI 10.5281/zenodo.19387331](https://doi.org/10.5281/zenodo.19387331) (CC-BY 4.0)
+
+---
+
+## Research
+
+This project implements research from:
+
+> **Bangkong: Pre-Intelligent LLM Training System for Resource-Efficient Large Language Model**
+> Author: Soni Nugraha
+> DOI: [10.5281/zenodo.19387331](https://doi.org/10.5281/zenodo.19387331)
+> Published: April 2, 2026
+> License: [CC-BY 4.0](https://creativecommons.org/licenses/by/4.0/)
 
 **Citation:**
-```
-Nugraha, S. (2026). Bangkong: Pre-Intelligent LLM Training System for
-Resources-Efficient Large Language Model. Zenodo.
-https://doi.org/10.5281/zenodo.19387331
-```
-
----
-
-## 🏗️ Architecture
-
-**Base Architecture:** GPT-2 Transformer (OpenAI, 2019)
-
-**Our Contribution:** Pre-Intelligent Initialization + System Enhancements
-
-| Component | Source |
-|-----------|--------|
-| Transformer Architecture | GPT-2 (OpenAI) |
-| Pre-Intelligent Initialization | This work |
-| Hardware Adaptation | This work |
-
-**Why GPT-2?**
-- Proven stability and reproducibility
-- Runs on consumer hardware
-- Easy to upgrade (same init works with LLaMA, Mistral, etc.)
-
-**Our innovation is the INITIALIZATION, not the architecture.**
-
-**Key Findings:**
-- ✅ **40% reduction** in training tokens required
-- ✅ **Validated on consumer hardware** (Intel Q8400, 8GB RAM, CPU-only)
-- ✅ **$334K-50M savings** per model (scaling law analysis)
-- ✅ **Pre-Intelligent Initialization** - models "born to be Einstein"
-
----
-
-## Features
-
-- **Environment Agnostic**: Works seamlessly across local development and cloud deployment
-- **Hardware Adaptive**: Automatically adjusts to available hardware resources
-- **Multi-Format Data Processing**: Handles text, images, audio, video, and documents
-- **Flexible Model Training**: Supports pre-training and fine-tuning with various architectures
-- **Comprehensive Model Packaging**: Converts models to multiple formats with quantization
-- **Multiple Deployment Options**: Local, cloud, and hybrid deployment scenarios
-- **Monitoring & Evaluation**: Real-time resource monitoring and performance tracking
-- **Data Processing Pipeline**: Automated data categorization, cleaning, and preprocessing
-- **Pre-Intelligent Initialization**: Models "born to be Einstein" with enhanced reasoning capabilities
-- **Scaling Law Validation**: Quantifiable benefits with 30-50% token reduction
-
-## Windows Launchers
-
-For easier use on Windows systems, we provide interactive launcher scripts:
-
-- `bangkong.bat` - Batch file launcher with menu-driven interface
-- `bangkong.ps1` - PowerShell launcher with enhanced formatting
-
-**Note**: Recent fixes have been applied to improve progress tracking visibility and fix a missing method issue when resuming training from checkpoints. The batch script now uses unbuffered output to ensure proper display of progress bars.
-
-## Data Processing Workflow
-
-The system includes a comprehensive data processing pipeline:
-
-1. **Raw Data Ingestion**: Place raw data in `data/raw` directory
-2. **File Categorization**: Automatic categorization by file type (text, code, documents, etc.)
-3. **Data Cleaning**: Automated cleaning and preprocessing
-4. **Sample Dataset Creation**: Generation of training samples for model training
-5. **Processed Data Output**: Cleaned data ready for training in `data/processed` and `data/sample`
-
-## Project Structure
-
-```
-bangkong/
-├── bangkong/
-│   ├── config/              # Configuration schemas and loaders
-│   │   ├── __init__.py
-│   │   ├── loader.py
-│   │   └── schemas.py
-│   ├── data/                # Multi-format data processing pipeline
-│   │   ├── __init__.py
-│   │   ├── pipeline.py
-│   │   └── processors/
-│   │       ├── base_processor.py
-│   │       ├── text_processor.py
-│   │       ├── image_processor.py
-│   │       ├── audio_processor.py
-│   │       ├── video_processor.py
-│   │       ├── document_processor.py
-│   │       ├── cross_modal_processor.py
-│   │       ├── domain_processor.py
-│   │       └── regional_processor.py
-│   ├── deployment/          # Deployment management
-│   │   └── manager.py
-│   ├── exceptions/          # Custom error types
-│   │   └── resource_errors.py
-│   ├── hardware/            # Hardware detection and resource allocation
-│   │   ├── detector.py
-│   │   └── allocator.py
-│   ├── models/              # Model training, packaging, and management
-│   │   ├── __init__.py
-│   │   ├── trainer.py
-│   │   ├── packager.py
-│   │   ├── training_manager.py
-│   │   ├── intelligent_init.py
-│   │   ├── cosine_clustered_embeddings.py
-│   │   ├── attention_specialization.py
-│   │   ├── curriculum.py
-│   │   ├── distillation.py
-│   │   ├── efficient_attention.py
-│   │   ├── multimodal.py
-│   │   ├── peft.py
-│   │   ├── pruning.py
-│   │   ├── quantization.py
-│   │   ├── regional.py
-│   │   └── specialized.py
-│   ├── monitoring/          # Resource and performance tracking
-│   │   └── tracker.py
-│   ├── pre_intelligent/     # Core innovation - Pre-Intelligent Initialization
-│   │   ├── curriculum/      # Curriculum learning with reasoning traces
-│   │   │   ├── config.yaml
-│   │   │   ├── config_loader.py
-│   │   │   └── reasoning_curriculum.py
-│   │   ├── energy_layer/    # Energy consistency mechanisms
-│   │   │   └── energy_consistency.py
-│   │   ├── hypernetwork/    # Prior knowledge generation
-│   │   │   └── prior_generator.py
-│   │   ├── memory/          # Hierarchical memory systems
-│   │   │   └── hierarchical_memory.py
-│   │   ├── meta_learning/   # MAML/Reptile algorithms
-│   │   │   └── maml_reptile.py
-│   │   └── reasoning_organs/# Specialized reasoning heads
-│   │       └── reasoning_heads.py
-│   ├── utils/               # Path management and dynamic imports
-│   │   ├── path_manager.py
-│   │   ├── dynamic_importer.py
-│   │   └── resource_manager.py
-│   └── validation/          # Scaling law validation
-│       └── scaling_law_validator.py
-├── benchmarks/              # Initialization benchmarks
-│   └── initialization_benchmark.py
-├── configs/                 # 36+ YAML configurations
-│   ├── default.yaml
-│   ├── development.yaml
-│   ├── production.yaml
-│   ├── 8gb_ram_test.yaml
-│   ├── curriculum.yaml
-│   ├── pre_intelligent_*.yaml
-│   └── [domain-specific configs: code, math, reasoning, scientific, etc.]
-├── data/                    # Sample and organized data
-│   ├── organized/
-│   │   └── code/
-│   ├── processed/
-│   └── raw/
-├── docs/                    # Documentation
-│   ├── INDEX.md
-│   ├── QUICKSTART.md
-│   ├── TRAINING_MODES.md
-│   ├── FAQ.md
-│   ├── TROUBLESHOOTING.md
-│   ├── architecture.md
-│   ├── configuration.md
-│   ├── curriculum_learning.md
-│   ├── intelligent_initialization.md
-│   └── api/
-├── examples/                # Demo scripts
-│   ├── pre_intelligent_demo.py
-│   ├── initialization_effectiveness_demo.py
-│   └── intelligent_initialization_demo.py
-├── scaling_law_results/     # Scaling law analysis
-│   ├── scaling_law_report.csv
-│   └── scaling_law_plot.png
-├── scripts/                 # CLI tools
-│   ├── train.py
-│   ├── evaluate.py
-│   ├── convert.py
-│   ├── deploy.py
-│   ├── demo_pre_intelligent.py
-│   ├── run_pre_intelligent_experiment.py
-│   ├── validate_scaling_law.py
-│   └── [data processing scripts]
-├── tests/                   # Comprehensive test suite
-│   ├── test_config.py
-│   ├── test_hardware.py
-│   ├── test_packager.py
-│   ├── test_pipeline.py
-│   ├── test_trainer.py
-│   ├── test_processors.py
-│   └── run_tests.py
-├── validation/              # Initialization validators
-│   ├── initialization_validator.py
-│   └── enhanced_initialization_validator.py
-├── .gitignore
-├── CITATION.cff
-├── CODE_OF_CONDUCT.md
-├── CONDA_SETUP.md
-├── LICENSE
-├── README.md
-├── SECURITY.md
-├── requirements.txt
-├── bangkong.bat             # Windows batch launcher
-└── bangkong_conda.bat       # Conda environment launcher
-└── pyproject.toml       
-└── setup.py
-```
-
-## Getting Started
-
-### Prerequisites
-
-- Python 3.8+
-- Git
-- (Optional) Miniconda/Anaconda for environment management (see `CONDA_SETUP.md`)
-
-### Installation
-
-1. Clone the repository:
-   ```bash
-   git clone https://github.com/shadowofsorrow/bangkong.git
-   cd bangkong
-   ```
-
-2. Install dependencies:
-   ```bash
-   pip install -r requirements.txt
-   ```
-   
-   Or use the Conda setup for an isolated environment:
-   ```bash
-   bangkong_conda.bat  # Windows
-   ```
-
-### Quick Start
-
-### 1. Prepare Training Data
-
-Create a JSONL file with your training data in the `data/processed` directory. Each line should be a JSON object with a "text" field:
-
-```json
-{"text": "This is the first training example."}
-{"text": "This is the second training example."}
-```
-
-### 2. Configure Your Model
-
-Edit or create a configuration file in the `configs/` directory:
-
-```yaml
-model:
-  name: "my-awesome-model"
-  architecture: "gpt2"
-  size: "small"  # tiny, small, medium, large, xlarge
-  vocab_size: 50257
-  hidden_size: 768
-  num_layers: 12
-  num_heads: 12
-  sequence_length: 1024
-
-training:
-  max_epochs: 3
-  learning_rate: 5e-5
-  batch_size: 8
-  gradient_accumulation_steps: 1
-  warmup_steps: 500
-
-hardware:
-  use_gpu: auto  # auto, true, false
-  fp16: auto     # auto, true, false
-  num_workers: 0
-
-data:
-  preprocessing:
-    min_text_length: 50
-    max_text_length: 10000
-```
-
-### 3. Train a Model
-
-```bash
-# Train with a specific config (fresh training)
-python scripts/train.py --config configs/development.yaml
-
-# Train with custom data and output paths
-python scripts/train.py --config configs/development.yaml --data-path ./data/processed/my_data.jsonl --output-path ./models/my_model
-
-# Train with default config (auto-detects paths)
-python scripts/train.py
-
-# Continue training a completed model (add more epochs)
-python scripts/train.py --training-mode continue --model-path ./models/my_model
-
-# Resume training from a checkpoint (continue from interruption)
-python scripts/train.py --training-mode resume --model-path ./models/my_model --checkpoint-path ./models/my_model/checkpoints/checkpoint_epoch_5.pt
-
-# Fine-tune an existing model on new data
-python scripts/train.py --training-mode fine-tune --model-path ./models/my_model
-
-# Interactive training mode (menu-driven)
-python scripts/train.py
-```
-
-### 4. Package the Model
-
-Convert your trained model to different formats:
-
-```bash
-# Convert to all default formats (PyTorch, SafeTensors)
-python scripts/convert.py --model-path ./models/my_model
-
-# Convert to specific formats
-python scripts/convert.py --model-path ./models/my_model --formats onnx safetensors gguf
-
-# Convert with custom output path
-python scripts/convert.py --model-path ./models/my_model --output-path ./converted_models --formats onnx
-```
-
-### 5. Evaluate the Model
-
-```bash
-# Evaluate with test data
-python scripts/evaluate.py --model-path ./models/my_model --data-path ./data/test/test_data.jsonl
-
-# Evaluate with configuration
-python scripts/evaluate.py --config configs/development.yaml --model-path ./models/my_model
-```
-
-### 6. Deploy the Model
-
-```bash
-# Deploy locally
-python scripts/deploy.py --model-path ./models/my_model --target local
-
-# Deploy to cloud (if configured)
-python scripts/deploy.py --model-path ./models/my_model --target cloud
-
-# Deploy with configuration
-python scripts/deploy.py --config configs/production.yaml --model-path ./models/my_model
-```
-
-## Pre-Intelligent Initialization
-
-The Bangkong system now includes advanced pre-intelligent initialization features that create models "born to be Einstein" - with enhanced reasoning capabilities, reduced training requirements, and improved efficiency right from initialization.
-
-### Key Features
-
-1. **Cosine-Clustered Embeddings**: Initialize embeddings with semantic neighborhoods based on domain knowledge
-2. **Attention Head Specialization**: Specialize attention heads for different reasoning patterns
-3. **Scaling Law Validation**: Quantifiable benefits with typically 40% token reduction
-4. **Controlled Experimentation Framework**: Systematic validation of approaches
-
-### Benefits
-
-- **30-50% reduction** in required pretraining tokens
-- **Billions of tokens saved** at scale (compute/energy efficiency)
-- **10-30% faster convergence** to target performance
-- **Built-in reasoning capabilities** from initialization
-- **Better generalization** from fewer examples
-
-### Configuration
-
-Enable pre-intelligent initialization in your configuration:
-
-```yaml
-model:
-  initialization_strategy: "pre_intelligent"
-  prior_knowledge: "reasoning"  # or "math", "code", "general"
-  preint_cosine_clustering: true
-  preint_attention_specialization: true
-
-training:
-  preint_reduction_factor: 0.4  # 40% token reduction
-```
-
-### Validation Tools
-
-```bash
-# Run scaling law validation
-python scripts/validate_scaling_law.py --config configs/development.yaml
-
-# Run controlled experiments
-python scripts/run_pre_intelligent_experiment.py --config configs/development.yaml
-
-# Demo the features
-python scripts/demo_pre_intelligent.py
-```
-
-For detailed documentation, see [docs/PRE_INTELLIGENT_INITIALIZATION.md](docs/intelligent_initialization.md).
-
-## Curriculum Learning
-
-The Bangkong system includes an advanced curriculum learning system that progressively increases the difficulty and complexity of training data to improve model performance and convergence speed.
-
-### Key Features
-
-1. **Multiple Curriculum Types**: Sequence length, complexity, and topic-based curricula
-2. **Adaptive Scheduling**: Automatically adjusts difficulty based on model performance
-3. **Synthetic Reasoning Traces**: Generates domain-specific reasoning problems for pre-intelligent models
-4. **Progressive Task Complexity**: Starts with simple tasks and gradually introduces more complex ones
-
-### Configuration
-
-Enable curriculum learning in your configuration:
-
-```yaml
-training:
-  curriculum_type: "complexity"  # sequence_length, complexity, topic, or none
-  curriculum_stages: 5
-  stage_samples_threshold: 10000
-```
-
-### Usage
-
-```bash
-# Train with curriculum learning
-python scripts/train.py --config configs/curriculum_learning.yaml
-
-# Generate synthetic curriculum for pre-intelligent training
-python scripts/generate_curriculum.py --domain reasoning --output-dir ./curriculum_reasoning
-```
-
-For detailed documentation, see [docs/curriculum_learning.md](docs/curriculum_learning.md).
-
-## Dynamic Configuration System
-
-The Bangkong system now features a comprehensive dynamic configuration system that makes the entire system environment-agnostic and fully customizable.
-
-### Key Features
-
-1. **YAML-Based Configuration**: All system parameters are configurable through YAML files
-2. **Environment Variables**: Override any configuration value with environment variables
-3. **Module-Specific Configurations**: Separate configuration files for different system modules
-4. **Runtime Reloading**: Configuration can be reloaded without restarting the system
-
-### Configuration Files
-
-- `configs/default.yaml`: Base configuration for all environments
-- `configs/development.yaml`: Development environment configuration
-- `configs/production.yaml`: Production environment configuration
-- `configs/testing.yaml`: Testing environment configuration
-- `bangkong/models/config.yaml`: Models-specific configuration
-- `bangkong/pre_intelligent/curriculum/config.yaml`: Curriculum learning configuration
-
-For detailed documentation, see [docs/configuration.md](docs/configuration.md) and [docs/models.md](docs/models.md).
-
-## Development
-
-### Setting Up Development Environment
-
-1. Fork the repository
-2. Clone your fork:
-   ```bash
-   git clone https://github.com/shadowofsorrow/bangkong.git
-   cd bangkong
-   ```
-
-3. Install dependencies:
-   ```bash
-   pip install -e ".[dev]"
-   ```
-
-### Code Style
-
-We follow these coding standards:
-- PEP 8 for Python code
-- Black for code formatting
-- Flake8 for linting
-- Type hints for all functions and classes
-
-Run these commands before committing:
-```bash
-black .
-flake8 .
-mypy .
-```
-
-## Contributing
-
-We welcome contributions to the Bangkong LLM Training System!
-
-1. Fork the repository
-2. Create a feature branch
-3. Make your changes
-4. Add tests if applicable
-5. Update documentation
-6. Run tests and linting
-7. Commit and push
-8. Create a pull request
-
-Please follow our Code of Conduct in all interactions.
-
----
-
-## 📚 Research & Citation
-
-This project implements research from the paper:
-
-**Bangkong: Pre-Intelligent LLM Training System for Resources-Efficient Large Language Model**
-*Author: Soni Nugraha*
-**DOI:** [10.5281/zenodo.19387331](https://doi.org/10.5281/zenodo.19387331)
-*Published: April 2, 2026*
-*License: [CC-BY 4.0](https://creativecommons.org/licenses/by/4.0/)*
-
-### Cite This Work
-
-**BibTeX:**
 ```bibtex
 @misc{nugraha2026bangkong,
   author = {Nugraha, Soni},
@@ -530,103 +40,186 @@ This project implements research from the paper:
 }
 ```
 
-### Key Research Contributions
+---
 
-- **Pre-Intelligent Initialization**: Structured knowledge embedding at model creation
-- **Cosine-Clustered Embeddings**: Semantic neighborhoods in embedding space
-- **Attention Head Specialization**: Pattern-specific attention initialization
-- **40% Token Reduction**: Validated efficiency improvement
-- **Consumer Hardware Training**: Full pipeline on 8GB RAM CPU
+## Architecture
+
+The system consists of three layers:
+
+### 1. Base Model — GPT-2 Transformer
+Standard causal language model architecture. The system supports GPT-2, GPT-Neo, GPT-J, and compatible Hugging Face models.
+
+### 2. Pre-Intelligent Initialization
+Components that initialize model weights with structured knowledge before training:
+
+| Component | What It Does |
+|-----------|-------------|
+| Cosine-Clustered Embeddings | Initializes token embeddings with domain-aware prototype grouping |
+| Attention Head Specialization | Creates pattern-specific attention bias tensors for different reasoning patterns |
+| Hierarchical Memory | Three-tier memory system (scratchpad, context, semantic) for persistent knowledge |
+| Meta-Learning Priors | Uses MAML/Reptile to learn initialization weights for fast task adaptation |
+| Energy-Based Consistency | Validates and regularizes hidden state consistency during forward pass |
+
+### 3. Training System
+Full training pipeline with data processing, curriculum learning, model packaging, and evaluation.
 
 ---
 
-## 💼 Consulting & Collaborations
+## Quick Start
 
-**For businesses:**
-- Custom LLM Training
-- Low-Resource Optimization
-- AI Implementation
+### Prerequisites
+- Python 3.8+
+- 8 GB RAM minimum (tested on Intel Core 2 Quad Q8400, 2008)
 
-Project budgets typically start at $5K. Contact for scoping.
+### Installation
+```bash
+git clone https://github.com/shadowofsorrow/bangkong.git
+cd bangkong
+pip install -r requirements.txt
+```
 
-**For co-founders/partners:**
-- Equity-based collaborations
-- Research partnerships
-- Joint ventures
-Let's discuss vision and fit.
+### Train a Model
+```bash
+# Prepare training data (JSONL with "text" field in data/processed/)
+# Configure model in configs/development.yaml
 
-**Contact:** bilbobangkong@gmail.com
+# Train
+python scripts/train.py --config configs/development.yaml
 
-### ☕ Support This Project
+# Or use interactive mode
+python scripts/train.py
+```
 
-If you find this project useful but aren't ready for a full consulting engagement, you can support development:
+### Configuration
+Configuration files are in `configs/`. Key options:
 
-[![Ko-fi](https://ko-fi.com/img/githubbutton_sm.svg)](https://ko-fi.com/bilbobangkong)
+```yaml
+model:
+  architecture: "gpt2"
+  hidden_size: 768
+  num_layers: 12
+  initialization_strategy: "pre_intelligent"
+  prior_knowledge: "reasoning"
 
-Every coffee helps keep the Q8400 running! 😂
+training:
+  max_epochs: 3
+  batch_size: 1
+  learning_rate: 5e-5
 
-### Why Work With Me?
+hardware:
+  use_gpu: auto
+  fp16: auto
+```
 
- - ✅ **Published Research** - DOI: 10.5281/zenodo.19387331
- - ✅ **Proven Efficiency** - 40% reduction in training tokens
- - ✅ **Resource-Constrained Expert** - Trained on 8GB RAM (your costs: 90% less)
- - ✅ **Production-Ready** - Full pipeline from data to deployment
- - ✅ **Flexible Engagement** - From quick consulting to full projects
-
-### Get In Touch
-
- - 📧 **Email:** bilbobangkong@gmail.com
- - 💼 **LinkedIn:** www.linkedin.com/in/soni-nugraha-467a1766
- - 📄 **GitHub:** [This Repository]
- - ☕ **Ko-fi:** https://ko-fi.com/bilbobangkong
-
-**Response Time:** Usually within 24-48 hours
-
-### What to Expect
-
-1. **Initial Contact** - Email me about your project needs
-2. **Discovery Call** - 30-min call to understand requirements
-3. **Custom Proposal** - Quote based on your specific scope
-4. **50% Deposit** - To begin work
-5. **Delivery** - Model/training completed
-6. **Final Payment** - Before handoff
-
-**Flexible payment plans available for startups and researchers.**
+See `configs/development.yaml` for a working example.
 
 ---
 
-## ⚠️ Hardware Notes
+## Pre-Intelligent Initialization Details
 
-**Tested On:** Intel Core 2 Quad Q8400 (2008), 8GB RAM, CPU-only
+### How It Works
 
-**What Works:**
-- ✅ Training with `configs/8gb_ram_test.yaml`
-- ✅ Ultra-small models (2 layers, 64 hidden)
-- ✅ Data processing (text, code files)
-- ✅ CPU-only training
+1. **Cosine-Clustered Embeddings**: Token embeddings are grouped by domain (math, code, reasoning, general) and initialized with prototype vectors on the unit sphere. Tokens in the same domain start closer together in embedding space.
 
-**What Doesn't Work on 8GB RAM:**
-- ❌ Default configs (will OOM - I learned this the hard way! 😂)
-- ❌ Large models (768+ hidden)
-- ❌ Long sequences (512+ tokens)
-- ❌ Batch size > 1
+2. **Attention Head Specialization**: Fixed bias tensors are created for different reasoning patterns (causal, sequential, numerical, etc.) and applied to attention outputs via forward hooks. Each head gets a pattern-specific bias at initialization.
 
-**For Production Use:**
-- Recommend 16GB+ RAM for larger models
-- GPU acceleration supported (CUDA 11.8+)
-- Cloud deployment options available
+3. **Hierarchical Memory**: A three-tier differentiable memory system is attached to the model:
+   - **Scratchpad** (64 slots): Immediate computation context
+   - **Context** (128 slots): Session/topic information
+   - **Semantic** (256 slots): Persistent knowledge
 
-## 🙏 Acknowledgments
+4. **Meta-Learning Priors**: MAML/Reptile is used to learn initialization weights that enable fast adaptation to new tasks. The prior generator produces LoRA adapter weights from knowledge concept embeddings.
+
+### Why It Helps
+
+By embedding structured knowledge at creation time, the model does not start from random weights. It begins with:
+- Semantic neighborhoods in embedding space (tokens from the same domain are closer)
+- Pattern-specific attention biases (heads pre-configured for different reasoning types)
+- Persistent memory slots ready to store and retrieve knowledge
+- Meta-learned initialization weights for fast task adaptation
+
+This reduces the number of training tokens needed to reach target performance — the paper reports ~40% reduction on validated benchmarks.
+
+---
+
+## Hardware Notes
+
+**Tested On**: Intel Core 2 Quad Q8400 (2008), 8 GB RAM, CPU-only
+
+| Config | Works | Notes |
+|--------|-------|-------|
+| `configs/development.yaml` | Yes | Small model, batch size 1 |
+| Default production configs | No | Will OOM on 8 GB RAM |
+
+**Requirements for Larger Models**:
+- 16 GB+ RAM recommended for medium models
+- GPU (CUDA 11.8+) supported and recommended for production
+- Multi-GPU distributed training supported
+
+---
+
+## Project Structure
+
+```
+bangkong/
+├── bangkong/                 # Core Python package
+│   ├── config/               # Configuration schemas and loaders
+│   ├── data/                 # Data processing pipeline
+│   ├── hardware/             # Hardware detection and resource allocation
+│   ├── models/               # Model training, packaging, and specialized modules
+│   ├── pre_intelligent/      # Core innovation — initialization components
+│   │   ├── curriculum/       # Curriculum learning
+│   │   ├── energy_layer/     # Energy-based consistency
+│   │   ├── hypernetwork/     # Prior knowledge generation
+│   │   ├── memory/           # Hierarchical memory system
+│   │   ├── meta_learning/    # MAML/Reptile
+│   │   └── reasoning_organs/ # Specialized reasoning heads
+│   └── utils/                # Utilities
+├── configs/                  # YAML configurations
+├── docs/                     # Documentation
+├── examples/                 # Demo scripts
+├── scripts/                  # CLI tools (train, evaluate, convert, etc.)
+└── tests/                    # Test suite
+```
+
+---
+
+## Development
+
+### Running Tests
+```bash
+pip install -e ".[dev]"
+pytest tests/ -v
+```
+
+### Code Style
+This project follows PEP 8. Before contributing:
+```bash
+black .
+flake8 .
+```
+
+### Contributing
+1. Fork the repository
+2. Create a feature branch
+3. Make your changes
+4. Add tests if applicable
+5. Update documentation
+6. Submit a pull request
+
+---
+
+## Acknowledgments
 
 This project builds upon:
-- **GPT-2** (OpenAI, 2019) - https://github.com/openai/gpt-2
-- **Transformer Architecture** (Vaswani et al., 2017) - https://arxiv.org/abs/1706.03762
-- **Hugging Face Transformers** - https://github.com/huggingface/transformers
-Bangkong is an **enhancement framework** for GPT-2, not a novel architecture.
-Our contribution is Pre-Intelligent Initialization and the training system.
+- **GPT-2** (OpenAI, 2019) — [github.com/openai/gpt-2](https://github.com/openai/gpt-2)
+- **Attention Is All You Need** (Vaswani et al., 2017) — [arxiv.org/abs/1706.03762](https://arxiv.org/abs/1706.03762)
+- **Hugging Face Transformers** — [github.com/huggingface/transformers](https://github.com/huggingface/transformers)
+
+Bangkong is an **enhancement framework** for GPT-2, not a novel architecture. The contribution is the Pre-Intelligent Initialization method and the training system.
 
 ---
 
 ## License
 
-This project is licensed under the MIT License - see the LICENSE file for details.
+MIT License. See [LICENSE](LICENSE) for details.

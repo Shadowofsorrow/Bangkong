@@ -1,0 +1,56 @@
+  │                                                                                                                  │
+  │    ============================================================                                                  │
+  │    BENCHMARK: Random Initialization (Baseline)                                                                   │
+  │      Init strategy: random                                                                                       │
+  │      Max epochs: 5                                                                                               │
+  │    ============================================================                                                  │
+  │    C:\Users\sonyn\miniconda3\envs\webui\lib\site-packages\torch\cuda\__init__.py:152: UserWarning:               │
+  │        Found GPU0  which is of cuda capability 3.0.                                                              │
+  │        PyTorch no longer supports this GPU because it is too old.                                                │
+  │        The minimum cuda capability supported by this library is 3.7.                                             │
+  │                                                                                                                  │
+  │      warnings.warn(old_gpu_warn % (d, name, major, minor, min_arch // 10, min_arch % 10))                        │
+  │    Info: No supported GPU available. Using CPU for training.                                                     │
+  │      Total params: 37,045,144                                                                                    │
+  │      Base params: 37,045,144                                                                                     │
+  │      Pre-intelligent params: 0                                                                                   │
+  │      Epoch 1/5: loss=10.4436, time=26.9s                                                                         │
+  │      Epoch 2/5: loss=8.8190, time=32.8s                                                                          │
+  │      Epoch 3/5: loss=7.8290, time=31.2s                                                                          │
+  │      Epoch 4/5: loss=6.8041, time=33.9s                                                                          │
+  │      Epoch 5/5: loss=5.8611, time=27.5s                                                                          │
+  │                                                                                                                  │
+  │    ============================================================                                                  │
+  │    BENCHMARK: Pre-Intelligent 5-Domain                                                                           │
+  │      Init strategy: pre_intelligent                                                                              │
+  │      Max epochs: 5                                                                                               │
+  │    ============================================================                                                  │
+  │    Initializing model with strategy: pre_intelligent                                                             │
+  │    Initializing embeddings with cosine-clustered approach...                                                     │
+  │    Initialized embeddings with 1 domain groups:                                                                  │
+  │      - general: 50257 tokens, 8 prototypes, complexity 1.00                                                      │
+  │    Specializing attention heads for None domain...                                                               │
+  │    Registered attention specialization hooks on 2 layers                                                         │
+  │    Specialized 4 attention heads:                                                                                │
+  │      - general: 4 heads                                                                                          │
+  │    Starting pre-intelligent initialization...                                                                    │
+  │    Pre-intelligent initialization completed!                                                                     │
+  │      5 domains registered: math, code, language, reasoning, general                                              │
+  │      15 component modules total (3 per domain)                                                                   │
+  │      Fusion module attached to model.forward — gradients will flow                                               │
+  │    Initialized model with pre-intelligent components for: None                                                   │
+  │    Info: No supported GPU available. Using CPU for training.                                                     │
+  │      Total params: 43,176,134                                                                                    │
+  │      Base params: 37,045,144                                                                                     │
+  │      Pre-intelligent params: 6,130,990                                                                           │
+  │                                                                                                                  │
+  │      Epoch 1/5: loss=9.9966, time=44.7s                                                                          │
+  │      Epoch 2/5: loss=9.2795, time=42.3s                                                                          │
+  │      Epoch 3/5: loss=8.5624, time=40.8s                                                                          │
+  │      Epoch 4/5: loss=7.8258, time=39.9s                                                                          │
+  │      Epoch 5/5: loss=7.0816, time=39.1s                                                                          │
+  │                                                                                                                  │
+  │    ============================================================                                                  │
+  │    Results saved to: C:\odin\others sytem train\bangkong\scaling_law_results\empirical_benchmark.csv             │
+  │    ============================================================                                                  │
+  │    Plot saved to: C:\odin\others sytem train\bangkong\scaling_law_results\empirical_benchmark_plot.png           │
