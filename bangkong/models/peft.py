@@ -108,6 +108,10 @@ class PEFTAdapter:
 
         # First pass: collect all linear layers that need LoRA applied
         for name, module in model.named_modules():
+            # Prevent wrapping lm_head to avoid breaking HuggingFace weight tying
+            if 'lm_head' in name:
+                continue
+
             # Apply LoRA to linear layers (but not to LoRA layers themselves)
             if isinstance(module, nn.Linear) and not isinstance(module, LoRALayer):
                 modifications.append((name, module))
@@ -216,6 +220,10 @@ class LoRAPEFTManager:
 
         # First pass: collect all linear layers that need LoRA applied
         for name, module in model.named_modules():
+            # Prevent wrapping lm_head to avoid breaking HuggingFace weight tying
+            if 'lm_head' in name:
+                continue
+
             # Apply LoRA to linear layers (but not to LoRA layers themselves)
             if isinstance(module, nn.Linear) and not isinstance(module, LoRALayer):
                 # Check if this module should be targeted based on config
