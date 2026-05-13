@@ -71,7 +71,8 @@ class HardwareDetector:
                         gpu_props = torch.cuda.get_device_properties(i)
                         # Check if GPU is supported (compute capability >= 3.7)
                         compute_capability = torch.cuda.get_device_capability(i)
-                        is_supported = compute_capability[0] >= 3 and compute_capability[1] >= 7
+                        major, minor = compute_capability
+                        is_supported = major > 3 or (major == 3 and minor >= 7)
                         
                         gpu_info.append({
                             'id': i,
@@ -87,9 +88,7 @@ class HardwareDetector:
                         continue
         except Exception:
             # If CUDA is not available or fails, return empty list
-            # Log the error for debugging purposes
-            import logging
-            logging.warning("CUDA not available or failed to initialize", exc_info=True)
+            pass
         return gpu_info
     
     @staticmethod

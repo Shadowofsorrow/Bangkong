@@ -477,6 +477,9 @@ class AttentionHeadSpecializer:
             # Resize bias to match primary output shape
             bias = self._resize_bias(blended_bias, primary.shape)
 
+            # Ensure bias is on the same device as primary
+            bias = bias.to(primary.device)
+
             # Apply small additive bias (0.01 scale to avoid destabilizing training)
             biased = primary + 0.01 * bias
 
