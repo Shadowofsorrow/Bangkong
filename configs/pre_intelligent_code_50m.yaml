@@ -8,11 +8,11 @@ model:
   modality: "text"
   domain: "reasoning"
   vocab_size: 50257
-  hidden_size: 768
-  num_layers: 12
-  num_heads: 12
-  sequence_length: 1024
-  max_sequence_length: 4096
+  hidden_size: 128
+  num_layers: 4
+  num_heads: 4
+  sequence_length: 512
+  max_sequence_length: 512
   initialization_strategy: "pre_intelligent"
   prior_knowledge: "code"
   
@@ -32,7 +32,7 @@ model:
     general: 0.2
 
 training:
-  max_epochs: 10
+  max_epochs: 1
   learning_rate: 3e-5
   batch_size: 2
   gradient_accumulation_steps: 2
