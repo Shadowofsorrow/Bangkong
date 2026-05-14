@@ -13,9 +13,44 @@ from pathlib import Path
 import torch
 from torch.utils.data import DataLoader, Dataset
 from dotenv import load_dotenv
+import time
+from requests.exceptions import HTTPError
 
 # Load environment variables from .env file
 load_dotenv()
+
+# Set HF endpoint to mirror to avoid rate limiting
+os.environ["HF_ENDPOINT"] = "https://hf-mirror.com"
+
+def safe_from_pretrained(from_pretrained_func, *args, **kwargs):
+    """
+    Safely call a from_pretrained method with retry on HTTP 429 errors.
+    """
+    max_retries = 5
+    base_delay = 1  # second
+    for i in range(max_retries):
+        try:
+            return from_pretrained_func(*args, **kwargs)
+        except Exception as e:
+            # Check if it's a 429 error (rate limit)
+            is_429 = False
+            if hasattr(e, 'response') and hasattr(e.response, 'status_code'):
+                if e.response.status_code == 429:
+                    is_429 = True
+            elif "429" in str(e) and ("Too Many Requests" in str(e) or "rate limit" in str(e).lower()):
+                is_429 = True
+
+            if is_429:
+                if i == max_retries - 1:
+                    raise  # Re-raise the last exception if we've exhausted retries
+                delay = base_delay * (2 ** i)  # Exponential backoff
+                logging.getLogger(__name__).warning(
+                    f"Encountered 429 rate limit. Retrying in {delay} seconds... (attempt {i+1}/{max_retries})"
+                )
+                time.sleep(delay)
+            else:
+                # Re-raise if it's not a 429 error
+                raise
 
 # Set up logging
 def setup_logging(log_file_path=None, log_level="INFO"):
@@ -405,11 +440,11 @@ def main():
         if training_mode in ["resume", "continue", "fine-tune"] and selected_model:
             # Try to load tokenizer from existing model
             try:
-                tokenizer = GPT2Tokenizer.from_pretrained(selected_model["path"])
+                tokenizer = safe_from_pretrained(GPT2Tokenizer.from_pretrained, selected_model["path"])
                 logger.info(f"Loaded tokenizer from existing model: {selected_model['path']}")
             except Exception:
                 # Fall back to default tokenizer
-                tokenizer = GPT2Tokenizer.from_pretrained('gpt2')
+                tokenizer = safe_from_pretrained(GPT2Tokenizer.from_pretrained, 'gpt2')
                 logger.info("Using default GPT-2 tokenizer")
         else:
             # Use appropriate tokenizer for fresh training
@@ -421,11 +456,11 @@ def main():
                 except Exception as tokenizer_error:
                     logger.warning(f"Failed to create multilingual tokenizer: {tokenizer_error}")
                     # Fallback to default tokenizer
-                    tokenizer = GPT2Tokenizer.from_pretrained('gpt2')
+                    tokenizer = safe_from_pretrained(GPT2Tokenizer.from_pretrained, 'gpt2')
                     logger.info("Using default GPT-2 tokenizer")
             else:
                 # Use default tokenizer for fresh training
-                tokenizer = GPT2Tokenizer.from_pretrained('gpt2')
+                tokenizer = safe_from_pretrained(GPT2Tokenizer.from_pretrained, 'gpt2')
                 logger.info("Using default GPT-2 tokenizer for fresh training")
         
         # Add padding token if it doesn't exist
@@ -441,7 +476,7 @@ def main():
         if training_mode in ["resume", "continue", "fine-tune"] and selected_model:
             # Load existing model
             try:
-                model = GPT2LMHeadModel.from_pretrained(selected_model["path"])
+                model = safe_from_pretrained(GPT2LMHeadModel.from_pretrained, selected_model["path"])
                 logger.info(f"Loaded model from existing model: {selected_model['path']}")
             except Exception as load_error:
                 logger.warning(f"Could not load model from {selected_model['path']}: {load_error}")

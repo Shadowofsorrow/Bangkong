@@ -34,7 +34,7 @@ def get_file_type(file_path: str) -> str:
     text_files = {'.txt', '.md', '.rst', '.log'}
     code_files = {'.py', '.js', '.java', '.cpp', '.c', '.h', '.html', '.css', '.xml'}
     document_files = {'.pdf', '.doc', '.docx', '.odt', '.rtf'}
-    data_files = {'.csv', '.json', '.yaml', '.yml', '.xml', '.tsv'}
+    data_files = {'.csv', '.json', '.yaml', '.yml', '.xml', '.tsv', '.jsonl'}
     image_files = {'.jpg', '.jpeg', '.png', '.gif', '.bmp', '.tiff', '.svg'}
     
     if file_ext in text_files:
@@ -62,11 +62,12 @@ def get_file_type(file_path: str) -> str:
 
 def categorize_files(raw_data_path: str) -> Dict[str, List[str]]:
     """
-    Categorize files in the raw data directory by type.
-    
+    Categorize files in the raw data path by type.
+    Handles both directories and individual files.
+
     Args:
-        raw_data_path: Path to raw data directory
-        
+        raw_data_path: Path to raw data directory or file
+
     Returns:
         Dictionary with file types as keys and file paths as values
     """
@@ -78,25 +79,30 @@ def categorize_files(raw_data_path: str) -> Dict[str, List[str]]:
         'image': [],
         'unknown': []
     }
-    
-    # Get all files in the raw data directory
+
+    # Get the path
     raw_path = Path(raw_data_path)
     if not raw_path.exists():
-        print(f"Warning: Raw data directory {raw_data_path} does not exist")
+        print(f"Warning: Raw data path {raw_data_path} does not exist")
         return categorized_files
-    
-    # Iterate through all files
-    for file_path in raw_path.rglob('*'):
-        if file_path.is_file():
-            file_type = get_file_type(str(file_path))
-            categorized_files[file_type].append(str(file_path))
-    
+
+    # If it's a file, process just that file
+    if raw_path.is_file():
+        file_type = get_file_type(str(raw_path))
+        categorized_files[file_type].append(str(raw_path))
+    else:
+        # It's a directory, iterate through all files
+        for file_path in raw_path.rglob('*'):
+            if file_path.is_file():
+                file_type = get_file_type(str(file_path))
+                categorized_files[file_type].append(str(file_path))
+
     # Print categorization summary
     print("File categorization summary:")
     for category, files in categorized_files.items():
         if files:
             print(f"  {category}: {len(files)} files")
-    
+
     return categorized_files
 
 
@@ -316,51 +322,102 @@ def process_document_files(file_paths: List[str], processed_path: str) -> List[D
 def process_data_files(file_paths: List[str], processed_path: str) -> List[Dict]:
     """
     Process data files and return training samples.
-    
+
     Args:
         file_paths: List of data file paths
         processed_path: Path to save processed files
-        
+
     Returns:
         List of training samples
     """
     training_samples = []
     processed_dir = Path(processed_path) / 'data'
     processed_dir.mkdir(parents=True, exist_ok=True)
-    
+
     for file_path in file_paths:
         try:
             # Extract content
             content = extract_text_content(file_path)
-            
+
             if not content.strip():
                 continue
-            
+
             # For structured data, create samples based on records/rows
             lines = [line.strip() for line in content.splitlines() if line.strip()]
-            
+
             filename = Path(file_path).stem
-            # If it looks like CSV or similar, treat each line as a sample
-            if len(lines) > 1:
-                for i, line in enumerate(lines[1:], 1):  # Skip header
+            file_ext = Path(file_path).suffix.lower()
+            
+            # Handle different data file types
+            if file_ext == '.jsonl':
+                # For JSONL, each line is a JSON object
+                for i, line in enumerate(lines, 1):
                     if len(line) > 10:  # Minimum length
-                        sample = {
-                            "text": line,
-                            "source": f"{filename}_record_{i}",
-                            "file_type": "data",
-                            "metadata": {
-                                "original_file": Path(file_path).name,
-                                "record_index": i,
-                                "char_count": len(line)
+                        try:
+                            # Parse JSON to validate and pretty-format
+                            import json
+                            json_obj = json.loads(line)
+                            # Convert back to formatted JSON string
+                            formatted_line = json.dumps(json_obj, ensure_ascii=False)
+                            sample = {
+                                "text": formatted_line,
+                                "source": f"{filename}_record_{i}",
+                                "file_type": "data",
+                                "metadata": {
+                                    "original_file": Path(file_path).name,
+                                    "record_index": i,
+                                    "char_count": len(formatted_line)
+                                }
                             }
+                            training_samples.append(sample)
+                        except json.JSONDecodeError:
+                            # If not valid JSON, treat as plain text
+                            sample = {
+                                "text": line,
+                                "source": f"{filename}_record_{i}",
+                                "file_type": "data",
+                                "metadata": {
+                                    "original_file": Path(file_path).name,
+                                    "record_index": i,
+                                    "char_count": len(line)
+                                }
+                            }
+                            training_samples.append(sample)
+            else:
+                # For CSV and other structured data, treat each line as a sample (skip header)
+                if len(lines) > 1:
+                    for i, line in enumerate(lines[1:], 1):  # Skip header
+                        if len(line) > 10:  # Minimum length
+                            sample = {
+                                "text": line,
+                                "source": f"{filename}_record_{i}",
+                                "file_type": "data",
+                                "metadata": {
+                                    "original_file": Path(file_path).name,
+                                    "record_index": i,
+                                    "char_count": len(line)
+                                }
+                            }
+                            training_samples.append(sample)
+                # For single-line data files, treat the whole content as one sample
+                elif len(lines) == 1 and len(lines[0]) > 10:
+                    sample = {
+                        "text": lines[0],
+                        "source": f"{filename}_record_1",
+                        "file_type": "data",
+                        "metadata": {
+                            "original_file": Path(file_path).name,
+                            "record_index": 1,
+                            "char_count": len(lines[0])
                         }
-                        training_samples.append(sample)
-            
-            print(f"  Processed: {Path(file_path).name} -> {len(lines)-1} samples")
-            
+                    }
+                    training_samples.append(sample)
+
+            print(f"  Processed: {Path(file_path).name} -> {len([l for l in lines if len(l) > 10])} samples")
+
         except Exception as e:
             print(f"  Warning: Failed to process {file_path}: {e}")
-    
+
     return training_samples
 
 

@@ -4,9 +4,40 @@ Region-specific models for Bangkong LLM Training System
 
 import torch
 import torch.nn as nn
+import time
 from typing import Optional, Dict, Any
+from requests.exceptions import HTTPError
 from transformers import AutoModel, AutoTokenizer, AutoConfig
 from ..config.schemas import BangkongConfig
+
+
+def safe_from_pretrained(from_pretrained_func, *args, **kwargs):
+    """
+    Safely call a from_pretrained method with retry on HTTP 429 errors.
+    """
+    max_retries = 5
+    base_delay = 1  # second
+    for i in range(max_retries):
+        try:
+            return from_pretrained_func(*args, **kwargs)
+        except Exception as e:
+            # Check if it's a 429 error (rate limit)
+            is_429 = False
+            if hasattr(e, 'response') and hasattr(e.response, 'status_code'):
+                if e.response.status_code == 429:
+                    is_429 = True
+            elif "429" in str(e) and ("Too Many Requests" in str(e) or "rate limit" in str(e).lower()):
+                is_429 = True
+
+            if is_429:
+                if i == max_retries - 1:
+                    raise  # Re-raise the last exception if we've exhausted retries
+                delay = base_delay * (2 ** i)  # Exponential backoff
+                print(f"Encountered 429 rate limit. Retrying in {delay} seconds... (attempt {i+1}/{max_retries})")
+                time.sleep(delay)
+            else:
+                # Re-raise if it's not a 429 error
+                raise
 
 
 class RegionSpecificModelLoader:
@@ -49,8 +80,8 @@ class RegionSpecificModelLoader:
         
         try:
             # Load model configuration
-            model_config = AutoConfig.from_pretrained(model_id)
-            
+            model_config = safe_from_pretrained(AutoConfig.from_pretrained, model_id)
+
             # Adjust configuration based on Bangkong config
             if hasattr(self.config.model, 'vocab_size') and self.config.model.vocab_size:
                 model_config.vocab_size = self.config.model.vocab_size
@@ -60,17 +91,17 @@ class RegionSpecificModelLoader:
                 model_config.num_hidden_layers = self.config.model.num_layers
             if hasattr(self.config.model, 'num_heads') and self.config.model.num_heads:
                 model_config.num_attention_heads = self.config.model.num_heads
-            
+
             # Load model
-            model = AutoModel.from_pretrained(model_id, config=model_config)
-            
+            model = safe_from_pretrained(AutoModel.from_pretrained, model_id, config=model_config)
+
             # Load tokenizer
-            tokenizer = AutoTokenizer.from_pretrained(model_id, trust_remote_code=True)
-            
+            tokenizer = safe_from_pretrained(AutoTokenizer.from_pretrained, model_id, trust_remote_code=True)
+
             # Add padding token if it doesn't exist
             if tokenizer.pad_token is None:
                 tokenizer.pad_token = tokenizer.eos_token
-            
+
             return model, tokenizer
         except Exception as e:
             raise RuntimeError(f"Failed to load region-specific model {model_id}: {e}")
@@ -124,20 +155,20 @@ class MultilingualTokenizer:
         
         try:
             # Try to load a multilingual tokenizer
-            tokenizer = AutoTokenizer.from_pretrained("bert-base-multilingual-cased")
-            
+            tokenizer = safe_from_pretrained(AutoTokenizer.from_pretrained, "bert-base-multilingual-cased")
+
             # Add language-specific tokens if needed
             special_tokens = []
             for lang in self.supported_languages:
                 special_tokens.append(f"[LANG_{lang.upper()}]")
-            
+
             if special_tokens:
                 tokenizer.add_special_tokens({"additional_special_tokens": special_tokens})
-            
+
             # Add padding token if it doesn't exist
             if tokenizer.pad_token is None:
                 tokenizer.pad_token = tokenizer.eos_token
-            
+
             return tokenizer
         except Exception as e:
             # Fallback to a basic tokenizer
