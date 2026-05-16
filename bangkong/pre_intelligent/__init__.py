@@ -333,13 +333,12 @@ class PreIntelligentInitializer:
                     except (RuntimeError, TypeError, ValueError) as e:
                         print(f"Warning: Consistency layer processing failed: {e}")
 
-                # Integrate enhancement residual back into outputs
+                # Integrate enhancement residual back into outputs SAFELY
                 if enhancement_residual is not None:
-                    if hasattr(outputs, 'logits') and outputs.logits is not None:
-                        enhancement_norm = enhancement_residual.norm(dim=-1, keepdim=True)
-                        logits_scale = enhancement_norm.mean() * 0.01
-                        outputs.logits = outputs.logits + logits_scale * torch.randn_like(outputs.logits)
-
+                    # IMPORTANT: We MUST NOT inject random noise into the logits!
+                    # Doing so destroys the cross-entropy loss gradients during training.
+                    # Instead, we apply the residual to the last hidden state if it exists,
+                    # which is standard for residual connection architectures.
                     if hasattr(outputs, 'hidden_states') and outputs.hidden_states is not None:
                         if isinstance(outputs.hidden_states, tuple):
                             new_last = outputs.hidden_states[-1] + 0.1 * enhancement_residual

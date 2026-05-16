@@ -33,12 +33,10 @@ class IntelligentInitializer:
         # Adaptive parameters based on domain
         self.adaptive_params = self._get_adaptive_parameters()
         
-        # Initialize pre-intelligent system if needed
-        if self.initialization_strategy == 'pre_intelligent':
-            pre_intelligent_config = create_pre_intelligent_config()
-            self.pre_intelligent_initializer = PreIntelligentInitializer(pre_intelligent_config)
-        else:
-            self.pre_intelligent_initializer = None
+        # We do NOT initialize pre_intelligent_initializer here anymore.
+        # It must be initialized dynamically in _initialize_pre_intelligent
+        # where we have access to the actual model's hidden_size.
+        self.pre_intelligent_initializer = None
     
     def _get_adaptive_parameters(self):
         """
@@ -199,9 +197,27 @@ class IntelligentInitializer:
         Returns:
             Model with pre-intelligent initialization
         """
-        if not self.pre_intelligent_initializer:
-            print("Warning: Pre-intelligent initializer not available")
+        # Dynamically create pre_intelligent_initializer with the model's actual hidden size
+        if getattr(self.config.model, 'initialization_strategy', 'random') != 'pre_intelligent':
+            print("Warning: Initialization strategy is not pre_intelligent")
             return model
+
+        pre_intelligent_config = create_pre_intelligent_config()
+        
+        # Extract the actual hidden size from the model
+        model_hidden_size = 768 # Default
+        if hasattr(model, 'config'):
+            if hasattr(model.config, 'hidden_size'):
+                model_hidden_size = model.config.hidden_size
+            elif hasattr(model.config, 'n_embd'):
+                model_hidden_size = model.config.n_embd
+        
+        # Override the PI config with the actual model hidden size
+        pre_intelligent_config['hidden_size'] = model_hidden_size
+        pre_intelligent_config['latent_dim'] = model_hidden_size
+
+        print(f"Creating PreIntelligentInitializer with dynamic hidden_size: {model_hidden_size}")
+        self.pre_intelligent_initializer = PreIntelligentInitializer(pre_intelligent_config)
         
         # Determine domain concepts based on prior knowledge
         domain_concepts = []
