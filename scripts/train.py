@@ -117,7 +117,7 @@ from bangkong.models.trainer import DynamicTrainer
 from bangkong.models.training_manager import TrainingManager
 from bangkong.models.multimodal import create_multimodal_model, MultimodalGPT2Model
 from bangkong.models.regional import load_region_specific_model, create_multilingual_tokenizer
-from bangkong.models.specialized import create_specialized_model, CodeGPT2Model, MathGPT2Model, ScientificGPT2Model
+from bangkong.models.specialized import create_specialized_model
 from bangkong.models.intelligent_init import apply_intelligent_initialization
 from bangkong.monitoring.tracker import ResourceTracker
 from bangkong.utils.path_manager import PathManager

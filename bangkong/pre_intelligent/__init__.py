@@ -221,7 +221,24 @@ class PreIntelligentInitializer:
         # 2. Apply meta initialization
         self.apply_meta_initialization(model, priors)
 
-        # 3. Store all pre-intelligent components (avoid circular references)
+        # 3. Handle PI components
+        is_native = hasattr(model, 'reasoning_organs') and hasattr(model, 'memory_system')
+        
+        if is_native:
+            print("Detected Native Bangkong Model.")
+            model._pre_intelligent_components = {
+                'reasoning_organs': model.reasoning_organs,
+                'memory_system': model.memory_system,
+                'consistency_layer': model.consistency_layer
+            }
+            # The forward method is already natively implemented in BangkongGPT2LMHeadModel.
+            # We just mark it as enhanced and return.
+            model._pre_intelligent_enhanced = True
+            print("Pre-intelligent initialization completed for Native Model!")
+            return model
+            
+        # Legacy route (for CodeGPT2Model, MathGPT2Model, etc.)
+        # Store all pre-intelligent components (avoid circular references)
         model._pre_intelligent_components = {
             'reasoning_organs': self.reasoning_organs,
             'memory_system': self.memory_system,

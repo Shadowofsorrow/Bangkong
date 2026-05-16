@@ -14,7 +14,7 @@ from .quantization import apply_quantization_to_model, quantize_model_weights, Q
 from .pruning import apply_pruning_to_model, PruningController, MagnitudePruning, StructuredPruning
 from .regional import load_region_specific_model, create_multilingual_tokenizer, RegionSpecificModelLoader
 from .curriculum import create_curriculum_controller, create_adaptive_sampler, CurriculumLearning, AdaptiveBatchSampler
-from .specialized import create_specialized_model, CodeGPT2Model, MathGPT2Model, ScientificGPT2Model
+from .specialized import create_specialized_model
 from .efficient_attention import create_efficient_attention, EfficientAttentionController, SparseAttention, LongformerAttention
 from .intelligent_init import create_intelligent_initializer, apply_intelligent_initialization, IntelligentInitializer
 from .cosine_clustered_embeddings import CosineClusteredEmbeddings
@@ -46,9 +46,6 @@ __all__ = [
     "CurriculumLearning",
     "AdaptiveBatchSampler",
     "create_specialized_model",
-    "CodeGPT2Model",
-    "MathGPT2Model",
-    "ScientificGPT2Model",
     "create_efficient_attention",
     "EfficientAttentionController",
     "SparseAttention",
