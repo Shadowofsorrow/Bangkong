@@ -112,3 +112,12 @@ ignore_missing_imports = true
 warn_unused_ignores = true
 warn_redundant_casts = true
 warn_unused_configs = true
+
+[tool.pyrefly]
+# Point Pyrefly to the conda environment where all project dependencies are
+# installed. This resolves the "source files for package are not found"
+# diagnostic that appears when Pyrefly falls back to its bundled stubs
+# because it cannot locate the actual installed packages.
+#
+# Update this path if your active conda environment changes.
+python_interpreter = "C:/Users/sonyn/miniconda3/envs/webui/python.exe"

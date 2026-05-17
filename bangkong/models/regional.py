@@ -9,6 +9,7 @@ from typing import Optional, Dict, Any
 from requests.exceptions import HTTPError
 from transformers import AutoModel, AutoTokenizer, AutoConfig
 from ..config.schemas import BangkongConfig
+from ..utils.tokenizer_manager import load_gpt2_tokenizer
 
 
 def safe_from_pretrained(from_pretrained_func, *args, **kwargs):
@@ -170,15 +171,15 @@ class MultilingualTokenizer:
                 tokenizer.pad_token = tokenizer.eos_token
 
             return tokenizer
-        except Exception as e:
-            # Fallback to a basic tokenizer
-            from transformers import GPT2Tokenizer
-            tokenizer = GPT2Tokenizer.from_pretrained('gpt2')
-            
-            # Add padding token
+        except Exception:
+            # Fallback: use the offline-first GPT-2 fast tokenizer so that
+            # tokenizer.json is always produced (fixes the Kaggle/Colab
+            # vocab.json + merges.txt merge issue).
+            tokenizer = load_gpt2_tokenizer()
+
             if tokenizer.pad_token is None:
                 tokenizer.pad_token = tokenizer.eos_token
-            
+
             return tokenizer
 
 

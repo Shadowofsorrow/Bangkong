@@ -121,7 +121,8 @@ from bangkong.models.specialized import create_specialized_model
 from bangkong.models.intelligent_init import apply_intelligent_initialization
 from bangkong.monitoring.tracker import ResourceTracker
 from bangkong.utils.path_manager import PathManager
-from transformers import GPT2LMHeadModel, GPT2Tokenizer, GPT2Config
+from transformers import GPT2LMHeadModel, GPT2TokenizerFast, GPT2Config
+from bangkong.utils.tokenizer_manager import load_gpt2_tokenizer
 
 
 # Suppress PyTorch warnings about old GPUs
@@ -438,32 +439,39 @@ def main():
     # Initialize tokenizer
     try:
         if training_mode in ["resume", "continue", "fine-tune"] and selected_model:
-            # Try to load tokenizer from existing model
+            # Try to load the fast tokenizer from the existing saved model directory.
+            # GPT2TokenizerFast correctly reads tokenizer.json when present.
             try:
-                tokenizer = safe_from_pretrained(GPT2Tokenizer.from_pretrained, selected_model["path"])
-                logger.info(f"Loaded tokenizer from existing model: {selected_model['path']}")
+                tokenizer = GPT2TokenizerFast.from_pretrained(selected_model["path"])
+                logger.info(f"Loaded fast tokenizer from existing model: {selected_model['path']}")
             except Exception:
-                # Fall back to default tokenizer
-                tokenizer = safe_from_pretrained(GPT2Tokenizer.from_pretrained, 'gpt2')
-                logger.info("Using default GPT-2 tokenizer")
+                # Saved model predates the fast-tokenizer format; fall back to the
+                # offline-first loader which always produces tokenizer.json.
+                logger.warning(
+                    "Could not load fast tokenizer from saved model. "
+                    "Falling back to offline GPT-2 tokenizer cache."
+                )
+                tokenizer = load_gpt2_tokenizer()
+                logger.info("Using offline-cached GPT-2 fast tokenizer.")
         else:
-            # Use appropriate tokenizer for fresh training
-            # Check if we need a regional/multilingual tokenizer
+            # Fresh training or multilingual path.
             if config.model.region != "global" or config.model.primary_language != "en":
                 try:
                     tokenizer = create_multilingual_tokenizer(config)
-                    logger.info("Using multilingual tokenizer")
+                    logger.info("Using multilingual tokenizer.")
                 except Exception as tokenizer_error:
-                    logger.warning(f"Failed to create multilingual tokenizer: {tokenizer_error}")
-                    # Fallback to default tokenizer
-                    tokenizer = safe_from_pretrained(GPT2Tokenizer.from_pretrained, 'gpt2')
-                    logger.info("Using default GPT-2 tokenizer")
+                    logger.warning(
+                        f"Failed to create multilingual tokenizer: {tokenizer_error}. "
+                        "Falling back to offline GPT-2 fast tokenizer."
+                    )
+                    tokenizer = load_gpt2_tokenizer()
+                    logger.info("Using offline-cached GPT-2 fast tokenizer.")
             else:
-                # Use default tokenizer for fresh training
-                tokenizer = safe_from_pretrained(GPT2Tokenizer.from_pretrained, 'gpt2')
-                logger.info("Using default GPT-2 tokenizer for fresh training")
-        
-        # Add padding token if it doesn't exist
+                # Standard fresh-training path — always use the offline-first loader.
+                tokenizer = load_gpt2_tokenizer()
+                logger.info("Using offline-cached GPT-2 fast tokenizer for fresh training.")
+
+        # Add padding token if it doesn't exist.
         if tokenizer.pad_token is None:
             tokenizer.pad_token = tokenizer.eos_token
     except Exception as e:
